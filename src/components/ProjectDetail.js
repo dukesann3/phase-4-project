@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
+import Assignment from "./Assignment";
 
 function ProjectDetail(){
 
@@ -25,6 +26,13 @@ function ProjectDetail(){
                     <div className="constainer">{prjDetail.customer_name}</div>
                     <div className="constainer">{prjDetail.sale_price}</div>
                     <div className="constainer">{prjDetail.comment}</div>
+
+                    {/* Create some kind of line right here */}
+                    <br />
+                    {prjDetail.assignments.map((assign) => {
+                        console.log(assign)
+                        return <Assignment key={assign.id} props={assign}/>
+                    })}
                 </>
                 : 
                 <h1>Loading...</h1>
