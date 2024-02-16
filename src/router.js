@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Projects from "./components/Projects";
 import ProjectDetail from "./components/ProjectDetail";
 import EmployeeID from "./components/EmployeeID";
+import AddAssignment from "./components/AddAssignment";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path: "/projects/:prj_id",
                 element: <ProjectDetail />
+            },
+            {
+                path: "/add_assignments",
+                element: <AddAssignment />
             }
         ]
     }

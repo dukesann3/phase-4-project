@@ -39,6 +39,7 @@ function Projects(){
         return false
     }
 
+    //catach error please
     function handleSubmit(event){
         event.preventDefault()
         if(!formChecker){
@@ -55,7 +56,7 @@ function Projects(){
         })
         .then(r => r.json())
         .then((response) => {
-            setForm({...form, response})
+            setProjects([...projects, response])
             console.log(response)
         })
 
