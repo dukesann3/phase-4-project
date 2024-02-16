@@ -5,6 +5,7 @@ import Employees from "./components/Employees";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
 import ProjectDetail from "./components/ProjectDetail";
+import EmployeeID from "./components/EmployeeID";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
             {
                 path: '/employees',
                 element: <Employees />
+            },
+            {
+                path: '/employees/:emp_id',
+                element: <EmployeeID />
             },
             {
                 path: '/projects',

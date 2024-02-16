@@ -70,8 +70,7 @@ function Employees(){
     return(
         <>
             {employees.map((employee)=>{
-                const {first_name, last_name, department, role} = employee
-                return <Employee first={first_name} last={last_name} department={department} role={role}/>
+                return <Employee key={employee.id} props={employee}/>
             })}
             <br/>
             <form onSubmit={handle_submit}>
