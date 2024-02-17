@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-function Assignment({props, handlePatch}){
+function Assignment({props, handlePatch, handleDelete}){
 
     const {comments, expected_end_date, start_date, name, employee_id, project_id, id} = props;
 
@@ -70,7 +70,32 @@ function Assignment({props, handlePatch}){
             //do something when an error occurs please
             console.log(error)
         })
+    }
 
+    function handleRemoveAgn(event){
+        event.preventDefault()
+
+        fetch(`/assignments/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application.json()"
+            }
+        })
+        .then((r) => {
+            if(r.ok){
+                return r.json();
+            }
+            else{
+                throw new Error("Something weird happened");
+            }
+        })
+        .then((response) => {
+            handleDelete(id)
+            console.log(response)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     }
 
     return(
@@ -91,6 +116,7 @@ function Assignment({props, handlePatch}){
                 <input type="date" placeholder="expected end date" name="expected_end_date" value={asgnUpdateForm.expected_end_date} onChange={handleChange}></input>
                 <button>SUBMIT</button>
             </form>
+            <button onClick={handleRemoveAgn}>Delete Assignment</button>
         </>
     )
 }

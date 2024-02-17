@@ -31,6 +31,23 @@ function EmployeeID(){
         setEmpDetail(copyEmp);
     }
 
+    function handleDelete(assignment_id){
+        const copyEmp = JSON.parse(JSON.stringify(empDetail));
+        
+        for(const property in copyEmp){
+            if(property == "assignments"){
+                for(let i = 0; i < copyEmp[property].length; i++){
+                    const element = copyEmp[property][i]
+                    if(element.id == assignment_id){ 
+                        copyEmp[property].splice(i,1);
+                    }
+                }
+            }
+        }
+
+        setEmpDetail(copyEmp);
+    }
+
     return(
         <>
             {empDetail ?
@@ -40,7 +57,7 @@ function EmployeeID(){
                 <div>{empDetail.role}</div>
                 <br/>
                 {empDetail.assignments.map((assign) => {
-                    return <Assignment key={assign.id} props={assign} handlePatch={handlePatch}/>
+                    return <Assignment key={assign.id} props={assign} handlePatch={handlePatch} handleDelete={handleDelete}/>
                 })}
             </div>
             :
