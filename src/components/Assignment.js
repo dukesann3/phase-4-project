@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-function Assignment({props, handlePatch, handleDelete}){
+function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, handlePrjDelete}){
 
     const {comments, expected_end_date, start_date, name, employee_id, project_id, id} = props;
 
@@ -17,8 +17,6 @@ function Assignment({props, handlePatch, handleDelete}){
     function handleChange(event){
         const name = event.target.name;
         const value = event.target.value;
-
-        console.log(name, value);
 
         setAsgnUpdateForm({
             ...asgnUpdateForm,
@@ -63,8 +61,13 @@ function Assignment({props, handlePatch, handleDelete}){
             }
         })
         .then((assignment) => {
-            console.log(assignment);
-            handlePatch(assignment);
+            const url = window.location;
+            if(url.includes("projects")){
+                handlePrjPatch(assignment);          
+            }
+            else if(url.includes("employees")){
+                handleEmpPatch(assignment);
+            }
         })
         .catch((error) => {
             //do something when an error occurs please
@@ -90,8 +93,14 @@ function Assignment({props, handlePatch, handleDelete}){
             }
         })
         .then((response) => {
-            handleDelete(id)
-            console.log(response)
+            console.log(window.location)
+            const url = window.location.pathname;
+            if(url.includes("projects")){
+                handlePrjDelete(id);         
+            }
+            else if(url.includes("employees")){
+                handleEmpDelete(id);
+            }
         })
         .catch((error) => {
             console.log(error)

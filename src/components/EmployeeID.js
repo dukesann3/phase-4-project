@@ -57,7 +57,7 @@ function EmployeeID(){
                 <div>{empDetail.role}</div>
                 <br/>
                 {empDetail.assignments.map((assign) => {
-                    return <Assignment key={assign.id} props={assign} handlePatch={handlePatch} handleDelete={handleDelete}/>
+                    return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>
                 })}
             </div>
             :

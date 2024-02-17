@@ -77,7 +77,41 @@ function ProjectDetail(){
             console.log(error)
         })
 
+    }
 
+    function handlePatch(patchedAssignment){
+        const id = patchedAssignment.id;
+        const copyPrj = JSON.parse(JSON.stringify(prjDetail));
+        
+        for(const property in copyPrj){
+            if(property == "assignments"){
+                for(let i = 0; i < copyPrj[property].length; i++){
+                    const element = copyPrj[property][i]
+                    if(element.id == id){ 
+                        copyPrj[property][i] = patchedAssignment;
+                    }
+                }
+            }
+        }
+
+        setPrjDetail(copyPrj);
+    }
+
+    function handleDelete(assignment_id){
+        const copyPrj = JSON.parse(JSON.stringify(prjDetail));
+        
+        for(const property in copyPrj){
+            if(property == "assignments"){
+                for(let i = 0; i < copyPrj[property].length; i++){
+                    const element = copyPrj[property][i]
+                    if(element.id == assignment_id){ 
+                        copyPrj[property].splice(i,1);
+                    }
+                }
+            }
+        }
+
+        setPrjDetail(copyPrj);
     }
 
     return(
@@ -95,7 +129,7 @@ function ProjectDetail(){
                     {/* Create some kind of line right here */}
                     <br />
                     {prjDetail.assignments.map((assign) => {
-                        return <Assignment key={assign.id} props={assign}/>
+                        return <Assignment key={assign.id} props={assign} handlePrjPatch={handlePatch} handlePrjDelete={handleDelete}/>
                     })}
                     {/* Create and organize project patch form */}
                     <br/>
