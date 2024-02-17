@@ -6,8 +6,8 @@ function AddAssignment(){
     const navigate = useNavigate();
 
     const [assignForm, setAssignForm] = useState({
-        employee_id: null,
-        project_id: null,
+        employee_id: "",
+        project_id: "",
         name: "",
         comments: "",
         start_date: "",
@@ -38,7 +38,7 @@ function AddAssignment(){
             //give error message here
             return
         }
-        
+
         fetch('/assignments', {
             method: "POST",
             headers: {
