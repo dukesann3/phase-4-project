@@ -9,6 +9,8 @@ function Navbar(){
                 <NavLink to='/employees'>Employees</NavLink>
                 <NavLink to='/projects'>Projects</NavLink>
                 <NavLink to='/add_assignments'>Add Assignments</NavLink>
+                <NavLink to='/assignment_logs'>Assignment Logs</NavLink>
+                <NavLink to='/project_logs'>Project Logs</NavLink>
             </nav>
         </>
     )

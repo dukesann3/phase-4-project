@@ -7,6 +7,8 @@ import Projects from "./components/Projects";
 import ProjectDetail from "./components/ProjectDetail";
 import EmployeeID from "./components/EmployeeID";
 import AddAssignment from "./components/AddAssignment";
+import AllAssignmentLog from "./components/AllAssignmentLog";
+import AllProjectLog from "./components/AllProjectLog";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
             {
                 path: "/add_assignments",
                 element: <AddAssignment />
+            },
+            {
+                path: '/assignment_logs',
+                element: <AllAssignmentLog />
+            },
+            {
+                path: '/project_logs',
+                element: <AllProjectLog />
             }
         ]
     }
