@@ -59,14 +59,38 @@ function Projects(){
             setProjects([...projects, response])
             console.log(response)
         })
+    }
 
+    function handlePrjDelete(id){
+        fetch(`/projects/${id}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((r) => {
+            if(r.ok){
+                return r.json()
+            }
+            else{
+                console.log(r);
+                throw new Error("Something went wrong")
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            setProjects(projects.filter(prj => prj.id !== id));
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
     return(
         <>
             {projects.map((prj) => {
-                const {sales_order, name, id} = prj
-                return(<Project key={id+sales_order} id={id} sales_order={sales_order} name={name} />)
+                const {sales_order, id} = prj
+                return(<Project key={id+sales_order} props={prj} handlePrjDelete={handlePrjDelete}/>)
             })}
             {/* Try to make this dryer */}
             <form onSubmit={handleSubmit}>

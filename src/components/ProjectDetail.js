@@ -4,7 +4,7 @@ import Assignment from "./Assignment";
 
 function ProjectDetail(){
 
-    let { prj_id } = useParams();
+    const { prj_id } = useParams();
     const [prjDetail, setPrjDetail] = useState()
     const [prjUpdateForm, setPrjUpdateForm] = useState({
         sales_order: "",
@@ -14,6 +14,10 @@ function ProjectDetail(){
         customer_name: "",
         sale_price: "",
         comment: ""
+    })
+    const [changeLogForm, setChangeLogForm] = useState({
+        project_id: prj_id,
+        detail: ""
     })
 
     useEffect(()=>{
@@ -33,7 +37,15 @@ function ProjectDetail(){
             ...prjUpdateForm,
             [name]: value
         });
+    }
 
+    function handleLogChange(event){
+        const detail = event.target.value;
+
+        setChangeLogForm({
+            ...changeLogForm,
+            detail: detail
+        });
     }
 
     function formChecker(){
@@ -45,36 +57,41 @@ function ProjectDetail(){
         return true
     }
 
-    function handleSubmit(event){
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        if(!formChecker()){
+
+        if(!formChecker() && changeLogForm.detail === ""){
             //give error message here for incomplete form
             return
         }
 
-        fetch(`/projects/${prj_id}`,{
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(prjUpdateForm)
-        })
-        .then((r) => {
-            if(r.ok){
-                return r.json();
-            }
-            else{
-                throw new Error("Something went wrong");
-            }
-        })
+        await Promise.all([
+            fetch(`/projects/${prj_id}`,{
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(prjUpdateForm)
+            }),
+            fetch(`/project_log`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(changeLogForm)
+            })
+        ])
+        .then(r => 
+            Promise.all(r.map((resp) => resp.json()))
+            )
         .then((response) => {
-            setPrjDetail(response);
-            setPrjUpdateForm(response);
-        })
-        .catch((error) => {
-            //do something when error
-            console.log(error)
+            console.log(response)
+            setPrjDetail(response[0]);
+            setPrjUpdateForm(response[0]);
+            setChangeLogForm({
+                project_id: prj_id,
+                detail: ""
+            })
         })
 
     }
@@ -141,7 +158,8 @@ function ProjectDetail(){
                         <input type="text" placeholder="customer name" name="customer_name" value={prjUpdateForm.customer_name} onChange={handleChange}></input>
                         <input type="number" placeholder="sale price" name="sale_price" value={prjUpdateForm.sale_price} onChange={handleChange}></input>
                         <input type="text" placeholder="comment" name="comment" value={prjUpdateForm.comment} onChange={handleChange}></input>
-                        <button>SUBMIT</button>
+                        <input type="text" placeholder="change detail" name="change_detail" value={changeLogForm.detail} onChange={handleLogChange}></input>                        
+                        <button type="submit">SUBMIT</button>
                     </form>
                 </>
                 : 
