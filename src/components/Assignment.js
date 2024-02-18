@@ -13,6 +13,10 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
         expected_end_date: expected_end_date,
         comments: comments
     });
+    const [asgnChangeDetail, setAsgnChangeDetail] = useState({
+        assignment_id: id,
+        detail: ""
+    });
 
     function handleChange(event){
         const name = event.target.name;
@@ -36,42 +40,63 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
         return true;
     }
 
+    function handleAsgnDetailChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setAsgnChangeDetail({
+            ...asgnChangeDetail,
+            [name]: value
+        })
+    }
+
     function handleSubmit(event){
         event.preventDefault();
 
-        if(!formChecker()){
+        if(!formChecker() && asgnChangeDetail.detail === ""){
             //give error message here please
+            console.log("EXQUEEZE MEW?");
             return
         }
 
-        fetch(`/assignments/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(asgnUpdateForm)
-        })
-        .then((r) => {
-            if(r.ok){
-                return r.json()
-            }
-            else{
-                //please elaborate on your errors please
-                throw new Error("Something went wrong")
-            }
-        })
-        .then((assignment) => {
-            const url = window.location;
+        Promise.all([
+            fetch(`/assignments/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(asgnUpdateForm)
+            }),
+            fetch(`/assignment_log`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(asgnChangeDetail)
+            })
+        ])
+        .then(r => 
+            Promise.all(r.map(resp => resp.json()))
+        )
+        .then((response) => {
+            const url = window.location.pathname;
+            console.log(response);
             if(url.includes("projects")){
-                handlePrjPatch(assignment);          
+                handlePrjPatch(response[0]);
+
+                setAsgnChangeDetail({
+                    assignment_id: id,
+                    detail: ""
+                });
             }
             else if(url.includes("employees")){
-                handleEmpPatch(assignment);
+                handleEmpPatch(response[0]);
+
+                setAsgnChangeDetail({
+                    assignment_id: id,
+                    detail: ""
+                });
             }
-        })
-        .catch((error) => {
-            //do something when an error occurs please
-            console.log(error)
         })
     }
 
@@ -123,6 +148,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
                 <input type="text" placeholder="comments" name="comments" value={asgnUpdateForm.comments} onChange={handleChange}></input>
                 <input type="date" placeholder="start date" name="start_date" value={asgnUpdateForm.start_date} onChange={handleChange}></input>
                 <input type="date" placeholder="expected end date" name="expected_end_date" value={asgnUpdateForm.expected_end_date} onChange={handleChange}></input>
+                <input type="text" placeholder="change detail" name="detail" value={asgnChangeDetail.detail} onChange={handleAsgnDetailChange}></input>
                 <button>SUBMIT</button>
             </form>
             <button onClick={handleRemoveAgn}>Delete Assignment</button>
