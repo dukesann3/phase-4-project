@@ -1,14 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import ErrorPage from "./components/ErrorPage";
-import Employees from "./components/Employees";
+import Employees from "./components/employee_components/Employees";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
 import ProjectDetail from "./components/ProjectDetail";
-import EmployeeID from "./components/EmployeeID";
+import EmployeeID from "./components/employee_components/EmployeeID";
 import AddAssignment from "./components/AddAssignment";
 import AllAssignmentLog from "./components/AllAssignmentLog";
 import AllProjectLog from "./components/AllProjectLog";
+import Test from "./components/Test";
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
             {
                 path: '/project_logs',
                 element: <AllProjectLog />
+            },
+            {
+                path: '/test',
+                element: <Test />
             }
         ]
     }

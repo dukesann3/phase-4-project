@@ -1,0 +1,46 @@
+
+
+.search-filter-window{
+    display: grid;
+    grid: auto-flow 30px / 25rem 20rem 20rem;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.employees-word{
+    height: 3rem;
+}
+
+.employees-word h1{
+    font-weight: 800;
+    font: 'Fira Sans';
+    color: #0788E5;
+}
+
+.search-term{
+    border: 0.5rem;
+    border-radius: 0.5rem;
+    height: 3rem;
+    width: 80%;
+    padding: 1rem;
+}
+
+.add-emp-btn{
+    height: 3rem;
+    width: 70%;
+}
+
+hr{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+/* make this go to app.js please */
+body{
+  background: #f2f2f2;
+}
+
+
+
+

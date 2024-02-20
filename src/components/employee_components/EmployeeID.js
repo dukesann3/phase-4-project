@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import Assignment from "./Assignment";
+import Assignment from "../Assignment";
 
 function EmployeeID(){
 
@@ -18,10 +18,10 @@ function EmployeeID(){
         const copyEmp = JSON.parse(JSON.stringify(empDetail));
         
         for(const property in copyEmp){
-            if(property == "assignments"){
+            if(property === "assignments"){
                 for(let i = 0; i < copyEmp[property].length; i++){
                     const element = copyEmp[property][i]
-                    if(element.id == id){ 
+                    if(element.id === id){ 
                         copyEmp[property][i] = patchedAssignment;
                     }
                 }
@@ -35,10 +35,10 @@ function EmployeeID(){
         const copyEmp = JSON.parse(JSON.stringify(empDetail));
         
         for(const property in copyEmp){
-            if(property == "assignments"){
+            if(property === "assignments"){
                 for(let i = 0; i < copyEmp[property].length; i++){
                     const element = copyEmp[property][i]
-                    if(element.id == assignment_id){ 
+                    if(element.id === assignment_id){ 
                         copyEmp[property].splice(i,1);
                     }
                 }
