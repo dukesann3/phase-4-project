@@ -1,0 +1,17 @@
+
+.color-green{
+    background: rgb(77, 255, 77);
+}
+
+.color-yellow{
+    background: yellow;
+}
+
+.color-red{
+    background: red
+}
+
+.date-indicator{
+    padding: 3%;
+
+}

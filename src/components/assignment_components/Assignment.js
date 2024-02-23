@@ -1,8 +1,16 @@
-import { useEffect, useState } from "react"
+import { useState } from "react";
+import {Card, Button, Confirm} from 'semantic-ui-react';
+import AssignmentPatchForm from "../form_components/AssignmentPatchForm";
+import "./assignmentCSS/assignmentPatchFormCSS.css";
+import LateDateOrNot from "./LateDateOrNot";
 
 function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, handlePrjDelete}){
 
     const {comments, expected_end_date, start_date, name, employee_id, project_id, id} = props;
+    const [state, setState] = useState({open: false});
+
+    const open = () => setState({open: true});
+    const close = () => setState({open: false});
 
     //need to find out if I am allowed to change foreign keys since it is a key.
     const [asgnUpdateForm, setAsgnUpdateForm] = useState({
@@ -17,6 +25,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
         assignment_id: id,
         detail: ""
     });
+    const [btnClick, setBtnClick] = useState(false);
 
     function handleChange(event){
         const name = event.target.name;
@@ -26,6 +35,10 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
             ...asgnUpdateForm,
             [name]: value
         })
+    }
+
+    function handleBtnClick(){
+        setBtnClick(!btnClick);
     }
 
     function formChecker(){
@@ -101,7 +114,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
     }
 
     function handleRemoveAgn(event){
-        event.preventDefault()
+        event.preventDefault();
 
         fetch(`/assignments/${id}`, {
             method: "DELETE",
@@ -134,24 +147,39 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
 
     return(
         <> 
-            <div className="assignment-window">
-                <div className="container">{name}</div>
-                <div className="container">{start_date}</div>
-                <div className="container">{expected_end_date}</div>
-                <div className="container">{comments}</div>
-            </div>
-            <br />
-            <form onSubmit={handleSubmit}>
-                <input type="number" placeholder='employee id' name="employee_id" value={asgnUpdateForm.employee_id} onChange={handleChange}></input>
-                <input type="number" placeholder="project id" name="project_id" value={asgnUpdateForm.project_id} onChange={handleChange}></input>
-                <input type="text" placeholder="name" name="name" value={asgnUpdateForm.name} onChange={handleChange}></input>
-                <input type="text" placeholder="comments" name="comments" value={asgnUpdateForm.comments} onChange={handleChange}></input>
-                <input type="date" placeholder="start date" name="start_date" value={asgnUpdateForm.start_date} onChange={handleChange}></input>
-                <input type="date" placeholder="expected end date" name="expected_end_date" value={asgnUpdateForm.expected_end_date} onChange={handleChange}></input>
-                <input type="text" placeholder="change detail" name="detail" value={asgnChangeDetail.detail} onChange={handleAsgnDetailChange}></input>
-                <button>SUBMIT</button>
-            </form>
-            <button onClick={handleRemoveAgn}>Delete Assignment</button>
+            <Card className="indiv-card-container">
+                <LateDateOrNot expected_end_date={expected_end_date}/>
+                <Card.Content>
+                    <Card.Header>Assignment Name: {name}</Card.Header>
+                    <Card.Meta>Start Date: {start_date}</Card.Meta>
+                    <Card.Meta>Expected End Date: {expected_end_date}</Card.Meta>
+                    <Card.Description>{comments}</Card.Description>
+                </Card.Content>
+                <Card.Content>
+                    <Button basic color='yellow' onClick={handleBtnClick}>Edit</Button>
+                    <Button basic color='red' onClick={open}>Delete</Button>
+                    <Confirm
+                    open={state.open} 
+                    onCancel={close}
+                    onConfirm={handleRemoveAgn}
+                    content={`Are you sure want to delete assignment: ${name}?`}
+                    />
+                </Card.Content>
+            </Card>
+
+            {
+                btnClick ?
+                <AssignmentPatchForm 
+                handleBtnClick={handleBtnClick} 
+                handleSubmit={handleSubmit} 
+                asgnUpdateForm={asgnUpdateForm}
+                asgnChangeDetail={asgnChangeDetail}
+                handleAsgnDetailChange={handleAsgnDetailChange}
+                handleAsgnFormChange={handleChange}
+                />
+                :
+                null
+            }
         </>
     )
 }

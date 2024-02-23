@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import Assignment from "../Assignment";
+import Assignment from "../assignment_components/Assignment";
+import {Card, Segment} from 'semantic-ui-react';
+import './employeeCSS/employeeAssignment.css';
 
 function EmployeeID(){
 
@@ -52,13 +54,19 @@ function EmployeeID(){
         <>
             {empDetail ?
             <div className="employee-detail-window">
-                <div>{empDetail.first_name} {empDetail.last_name}</div>
-                <div>{empDetail.department}</div>
-                <div>{empDetail.role}</div>
-                <br/>
-                {empDetail.assignments.map((assign) => {
-                    return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>
-                })}
+                <div className="employee-desc-container">
+                    <h2>{empDetail.first_name} {empDetail.last_name}'s Assignments</h2>
+                    <div className="employee-meta">
+                        <span>Department: {empDetail.department}</span>
+                        <span>Role: {empDetail.role}</span>
+                    </div>
+                </div>
+                <hr />
+                <Card.Group className="assignment-group" itemsPerRow={3}>
+                    {empDetail.assignments.map((assign) => {
+                        return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>
+                    })}
+                </Card.Group>
             </div>
             :
             <>

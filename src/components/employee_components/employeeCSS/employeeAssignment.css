@@ -1,0 +1,26 @@
+
+.assignment-group{
+    padding: 0 5% 5% 5%;
+}
+
+.employee-desc-container{
+    margin: 5% 5% 3% 5%;
+    padding: 2%;
+    background: white;
+    width: 30%;
+    border-radius: 1rem;
+}
+
+.employee-meta{
+    display: grid;
+    grid-template-rows: 1.5rem 1.5rem;
+}
+
+.employee-meta span{
+    color: gray;
+}
+
+.employee-desc-container h2{
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgba(39, 39, 39, 0.837);
+}

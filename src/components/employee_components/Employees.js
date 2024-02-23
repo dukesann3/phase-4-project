@@ -105,9 +105,9 @@ function Employees(){
                 <hr></hr>
             </div>
 
-            <Card.Group className="emp-group" itemsperRow={6} centered={true}>
+            <Card.Group className="emp-group" itemsPerRow={3} centered={true}>
                 {filteredItems.map((employee)=>{
-                    return (<Card><Employee key={employee.id} props={employee}/></Card>)
+                    return (<Card><Employee key={employee.id} props={employee} /></Card>)
                 })}
             </Card.Group>
                 

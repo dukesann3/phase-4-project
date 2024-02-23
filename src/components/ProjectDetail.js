@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import Assignment from "./Assignment";
+import Assignment from "./assignment_components/Assignment";;
 
 function ProjectDetail(){
 
