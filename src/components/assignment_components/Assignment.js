@@ -6,7 +6,7 @@ import LateDateOrNot from "./LateDateOrNot";
 
 function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, handlePrjDelete}){
 
-    const {comments, expected_end_date, start_date, name, employee_id, project_id, id} = props;
+    const {isComplete, comments, expected_end_date, start_date, name, employee_id, project_id, id} = props;
     const [state, setState] = useState({open: false});
 
     const open = () => setState({open: true});
@@ -19,7 +19,8 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
         name: name,
         start_date: start_date,
         expected_end_date: expected_end_date,
-        comments: comments
+        comments: comments,
+        isComplete: isComplete
     });
     const [asgnChangeDetail, setAsgnChangeDetail] = useState({
         assignment_id: id,
@@ -145,10 +146,49 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
         })
     }
 
+    function handleIsComplete(){
+
+        const patchReq = {
+            isComplete: !isComplete
+        }
+
+        Promise.all([
+            fetch(`/assignments/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(patchReq)
+            }),
+            fetch(`/assignment_log`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    assignment_id: id,
+                    detail: "Completed Assignment"
+                })
+            })
+        ])
+        .then(response => Promise.all(response.map((resp) => {
+            if(resp.ok){
+                return resp.json();
+            }
+            throw new Error("Something went wrong");
+        })))
+        .then(([emp, asgnLog]) => {
+            handleEmpPatch(emp);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
     return(
         <> 
             <Card className="indiv-card-container">
-                <LateDateOrNot expected_end_date={expected_end_date}/>
+                <LateDateOrNot expected_end_date={expected_end_date} isComplete={isComplete}/>
                 <Card.Content>
                     <Card.Header>Assignment Name: {name}</Card.Header>
                     <Card.Meta>Start Date: {start_date}</Card.Meta>
@@ -156,6 +196,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
                     <Card.Description>{comments}</Card.Description>
                 </Card.Content>
                 <Card.Content>
+                    <Button basic color='green' onClick={handleIsComplete}>{isComplete ? "Not Completed" : "Completed"}</Button>
                     <Button basic color='yellow' onClick={handleBtnClick}>Edit</Button>
                     <Button basic color='red' onClick={open}>Delete</Button>
                     <Confirm

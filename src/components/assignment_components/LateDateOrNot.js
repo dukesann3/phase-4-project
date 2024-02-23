@@ -1,7 +1,7 @@
 
 import './assignmentCSS/assignmentCSS.css';
 
-function LateDateOrNot({expected_end_date}){
+function LateDateOrNot({expected_end_date, isComplete}){
 
     const now = new Date();
     const nowTimeStamp = now.getTime();
@@ -14,6 +14,10 @@ function LateDateOrNot({expected_end_date}){
     return(
         <>
             {
+                (isComplete) ? 
+                <div className='completed-assignment date-indicator'>
+                    Assignment Completed.
+                </div> :
                 (diffDays >= 3) ? 
                 <div className='color-green date-indicator'>
                     Clear. {diffDays} days to deadline.

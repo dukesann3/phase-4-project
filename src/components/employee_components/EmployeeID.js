@@ -8,6 +8,7 @@ function EmployeeID(){
 
     let {emp_id} = useParams();
     const [empDetail, setEmpDetail] = useState();
+    const [filterBy, setFilterBy] = useState("All");
 
     useEffect(()=>{
         fetch(`/employees/${emp_id}`)
@@ -50,20 +51,65 @@ function EmployeeID(){
         setEmpDetail(copyEmp);
     }
 
+    function handleAsgnFilter(event){
+        setFilterBy(event.target.value);
+    }
+
+    const filterOptions = ["Completed Assignments", "Late Assignments", "All"];
+
+    const filteredAssignments = empDetail ? empDetail.assignments.filter((asgn) => {
+        if(filterBy === "All"){
+            return true;
+        }
+        else if(filterBy=== "Completed Assignments"){
+            if(asgn.isComplete){
+                return true;
+            }
+        }
+        else if(filterBy === "Late Assignments"){
+            const now = new Date();
+            const nowTimeStamp = now.getTime();
+            const asgnEnd = new Date(asgn.expected_end_date);
+            const AsgnEndTimeStamp = asgnEnd.getTime();
+        
+            const diffMicroSeconds = AsgnEndTimeStamp - nowTimeStamp;
+            const diffDays = Math.round(diffMicroSeconds / (1000*60*60*24));
+            if(diffDays <= 0){
+                return true;
+            }
+        }
+        return false;
+    }) : null;
+
     return(
         <>
             {empDetail ?
             <div className="employee-detail-window">
-                <div className="employee-desc-container">
-                    <h2>{empDetail.first_name} {empDetail.last_name}'s Assignments</h2>
-                    <div className="employee-meta">
-                        <span>Department: {empDetail.department}</span>
-                        <span>Role: {empDetail.role}</span>
+                <div className="employee-desc-window">
+                    <div className="employee-desc-container">
+                        <h2>{empDetail.first_name} {empDetail.last_name}'s Assignments</h2>
+                        <div className="employee-meta">
+                            <span>Department: {empDetail.department}</span>
+                            <span>Role: {empDetail.role}</span>
+                        </div>
+                    </div>
+                    <div className="filter-emp-container">
+                        <h4>Filter Assignments By:</h4>
+                        <select className="filter-asgn"  
+                        onChange={handleAsgnFilter}>
+                            {filterOptions.map((filter, i) => {
+                                if(filter === "All"){
+                                    return <option selected value={filter} key={`${filter}+${i}`}>{filter}</option>
+                                }
+                                return <option value={filter} key={`${filter}+${i}`}>{filter}</option>
+                            })}
+                        </select>
                     </div>
                 </div>
+        
                 <hr />
                 <Card.Group className="assignment-group" itemsPerRow={3}>
-                    {empDetail.assignments.map((assign) => {
+                    {filteredAssignments.map((assign) => {
                         return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>
                     })}
                 </Card.Group>

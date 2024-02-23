@@ -104,16 +104,16 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
                 onChange={handleAsgnFormChange}
                 />
 
-                <Form.Input 
-                fluid label="Comments" 
+                <Form.TextArea 
+                label="Comments" 
                 placeholder="Comments" 
                 name="comments"
                 value={asgnUpdateForm.comments}
                 onChange={handleAsgnFormChange}
                 />
 
-                <Form.Input 
-                fluid label="Change Detail" 
+                <Form.TextArea 
+                label="Change Detail" 
                 placeholder="Change Detail" 
                 name="detail"
                 value={asgnChangeDetail.detail}
