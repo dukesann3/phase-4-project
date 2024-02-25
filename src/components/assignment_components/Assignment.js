@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {Card, Button, Confirm} from 'semantic-ui-react';
 import AssignmentPatchForm from "../form_components/AssignmentPatchForm";
-import "./assignmentCSS/assignmentPatchFormCSS.css";
+import "./assignmentCSS/universalForm.css";
 import LateDateOrNot from "./LateDateOrNot";
 
 function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, handlePrjDelete}){
@@ -196,7 +196,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
                     <Card.Description>{comments}</Card.Description>
                 </Card.Content>
                 <Card.Content>
-                    <Button basic color='green' onClick={handleIsComplete}>{isComplete ? "Not Completed" : "Completed"}</Button>
+                    <Button basic color={isComplete ? "green" : "blue"} onClick={handleIsComplete}>{isComplete ? "Un-Complete" : "Completed"}</Button>
                     <Button basic color='yellow' onClick={handleBtnClick}>Edit</Button>
                     <Button basic color='red' onClick={open}>Delete</Button>
                     <Confirm

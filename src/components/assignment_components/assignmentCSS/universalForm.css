@@ -1,4 +1,4 @@
-.assignment-patch-form{
+.form{
     position: fixed !important;
     top: 50%;
     left: 50%;
@@ -23,5 +23,7 @@ button:hover{
 .isFixed{
     position: fixed;
 }
+
+
 
 

@@ -1,10 +1,10 @@
 import {Form, Button} from 'semantic-ui-react';
-import '../employee_components/employeeCSS/addemployeeform.css';
+import '../assignment_components/assignmentCSS/universalForm.css';
 
 function EmployeeAddForm({handleSubmit, form, handleChange, handleBtnClick}){
 
     return(
-        <div className="employee-add-form">
+        <div className="form">
             <button className="btn-position" onClick={handleBtnClick}>X</button>
             <h2>Employee Add Form</h2>
             <Form onSubmit={handleSubmit}>

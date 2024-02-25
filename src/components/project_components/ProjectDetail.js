@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import Assignment from "./assignment_components/Assignment";;
+import Assignment from "../assignment_components/Assignment";
+import { Card } from "semantic-ui-react";
 
 function ProjectDetail(){
 
@@ -145,9 +146,11 @@ function ProjectDetail(){
 
                     {/* Create some kind of line right here */}
                     <br />
-                    {prjDetail.assignments.map((assign) => {
-                        return <Assignment key={assign.id} props={assign} handlePrjPatch={handlePatch} handlePrjDelete={handleDelete}/>
-                    })}
+                    <Card.Group itemsPerRow={3}>
+                        {prjDetail.assignments.map((assign) => {
+                            return <Assignment key={assign.id} props={assign} handlePrjPatch={handlePatch} handlePrjDelete={handleDelete}/>
+                        })}
+                    </Card.Group>
                     {/* Create and organize project patch form */}
                     <br/>
                     <form onSubmit={handleSubmit}>

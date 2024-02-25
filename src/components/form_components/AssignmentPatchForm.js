@@ -1,6 +1,6 @@
 import {Form, Button} from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
-import '../assignment_components/assignmentCSS/assignmentPatchFormCSS.css';
+import '../assignment_components/assignmentCSS/universalForm.css';
 
 function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgnChangeDetail, handleAsgnDetailChange, handleAsgnFormChange}){
 
@@ -63,10 +63,10 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
 
 
     return(
-        <Form className="assignment-patch-form" onSubmit={handleSubmit}>
+        <Form className="form" onSubmit={handleSubmit}>
             <button className="btn-position" onClick={handleBtnClick}>X</button>
             <h2>Edit Assignment</h2>
-            <Form.Group>
+            <Form.Group widths='equal'>
                 <div className="select-container">
                     <h3>Employee Selection</h3>
                     <select className="asgn-patch-form-select" 
@@ -95,7 +95,7 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
                     </select>
                 </div>
             </Form.Group>
-            <Form.Group>
+            <Form.Group widths='equal'>
                 <Form.Input 
                 fluid label="Assignment Name" 
                 placeholder="Assignment Name"
@@ -120,7 +120,7 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
                 onChange={handleAsgnDetailChange}
                 />
             </Form.Group>
-            <Form.Group>
+            <Form.Group widths='equal'>
                 <input 
                 type="date" 
                 placeholder="Start Date" 
