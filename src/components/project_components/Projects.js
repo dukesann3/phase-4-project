@@ -119,6 +119,19 @@ function Projects(){
         return false;
     });
 
+    function handleProjectPatch(prj){
+        setProjects(projects.map((project) => {
+            if(project.id === prj.id){
+                return prj
+            }
+            else{
+                return project;
+            }
+        }));
+    }
+
+
+
     return(
         <>
             <div className="search-filter-window">
@@ -132,7 +145,12 @@ function Projects(){
             <Card.Group className="prj-group" centered={true} itemsPerRow={3}>
                 {filteredProjects.map((prj) => {
                     const {sales_order, id} = prj
-                    return <Project key={id+sales_order} props={prj} handlePrjDelete={handlePrjDelete}/>
+                    return <Project 
+                    key={id+sales_order} 
+                    project={prj} 
+                    handlePrjDelete={handlePrjDelete} 
+                    handleProjectPatch={handleProjectPatch}
+                    />
                 })}
             </Card.Group>
 
