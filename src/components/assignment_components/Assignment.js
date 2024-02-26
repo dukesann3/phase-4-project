@@ -102,6 +102,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
                     assignment_id: id,
                     detail: ""
                 });
+                handleBtnClick();
             }
             else if(url.includes("employees")){
                 handleEmpPatch(response[0]);
@@ -110,6 +111,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
                     assignment_id: id,
                     detail: ""
                 });
+                handleBtnClick();
             }
         })
     }
@@ -177,8 +179,17 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
             }
             throw new Error("Something went wrong");
         })))
-        .then(([emp, asgnLog]) => {
-            handleEmpPatch(emp);
+        .then(([response, asgnLog]) => {
+            const url = window.location.pathname;
+            if(url.includes("employee")){
+                handleEmpPatch(response);
+                console.log(asgnLog);
+            }
+            else if(url.includes("project")){
+                handlePrjPatch(response);
+                console.log(asgnLog);
+            }
+
         })
         .catch((error) => {
             console.log(error);

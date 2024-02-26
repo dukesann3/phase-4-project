@@ -1,12 +1,12 @@
 import {Form, Button} from 'semantic-ui-react';
-import { useEffect, useState } from 'react';
+import '../assignment_components/assignmentCSS/universalForm.css';
 
 function ProjectPatchForm({handlePatch, close, handleChangeLog, handleChangePrj, form, logForm}){
 
 
     return(
         <Form onSubmit={handlePatch}>
-            <button onClick={close}>X</button>
+            <button onClick={close} className='btn-position'>X</button>
             <h2>Edit Project</h2>
             <Form.Group widths='equal'>
                 <Form.Input 

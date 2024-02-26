@@ -84,11 +84,11 @@ function EmployeeID(){
     return(
         <>
             {empDetail ?
-            <div className="employee-detail-window">
-                <div className="employee-desc-window">
-                    <div className="employee-desc-container">
+            <div className="detail-window">
+                <div className="desc-window">
+                    <div className="desc-container">
                         <h2>{empDetail.first_name} {empDetail.last_name}'s Assignments</h2>
-                        <div className="employee-meta">
+                        <div className="meta">
                             <span>Department: {empDetail.department}</span>
                             <span>Role: {empDetail.role}</span>
                         </div>
@@ -108,7 +108,7 @@ function EmployeeID(){
                 </div>
         
                 <hr />
-                <Card.Group className="assignment-group" itemsPerRow={3}>
+                <Card.Group className="group" itemsPerRow={3}>
                     {filteredAssignments.map((assign) => {
                         return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>
                     })}
