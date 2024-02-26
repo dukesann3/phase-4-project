@@ -69,7 +69,7 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
             <Form.Group widths='equal'>
                 <div className="select-container">
                     <h3>Employee Selection</h3>
-                    <select className="asgn-patch-form-select" 
+                    <select className="asgn-select" 
                     name="employee_id" 
                     onChange={handleAsgnFormChange}>
                         {empOptions().map((emp) => {

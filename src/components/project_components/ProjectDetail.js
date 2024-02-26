@@ -1,15 +1,32 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import Assignment from "../assignment_components/Assignment";
-import { Card } from "semantic-ui-react";
+import { Card, Button } from "semantic-ui-react";
 import '../project_components/project_CSS/all_projects.css';
 import '../employee_components/employeeCSS/employeeAssignment.css';
+import AssignmentAddForm from "../form_components/AssignmentAddForm";
 
 function ProjectDetail(){
 
     const { prj_id } = useParams();
     const [prjDetail, setPrjDetail] = useState()
     const [filterBy, setFilterBy] = useState("All");
+
+    const [openAddForm, setOpenAddForm] = useState(false);
+    const open = () => setOpenAddForm(true);
+    const close = () => setOpenAddForm(false);  
+
+    function handleAddAsgn(newAssignment){
+        let copyPrj = JSON.parse(JSON.stringify(prjDetail));
+
+        for(const property in copyPrj){
+            if(property === "assignments"){
+                copyPrj[property].push(newAssignment);
+            }
+        }
+        
+        setPrjDetail(copyPrj);
+    }
 
     useEffect(()=>{
         fetch(`/projects/${prj_id}`)
@@ -18,7 +35,6 @@ function ProjectDetail(){
             setPrjDetail(response);
         })
     }, []);
-
 
     function handlePatch(patchedAssignment){
         const id = patchedAssignment.id;
@@ -85,6 +101,62 @@ function ProjectDetail(){
         return false;
     }) : null;
 
+    const [asgnAddForm, setAsgnAddForm] = useState({
+        employee_id: "",
+        project_id: prj_id,
+        name: "",
+        start_date: "",
+        expected_end_date: "",
+        comments: "",
+        isComplete: false
+    });
+
+    function handleAddChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setAsgnAddForm({
+            ...asgnAddForm,
+            [name]: value
+        });
+    }
+    
+    function addAsgnFormChecker(){
+        const {employee_id, project_id, name, start_date, expected_end_date} = asgnAddForm;
+        if(employee_id && project_id && name && start_date && expected_end_date){
+            return true;
+        }
+        return false;
+    }
+
+    function handleAsgnAddSubmit(){
+
+        if(!addAsgnFormChecker()){
+            return false;
+        }
+
+        fetch(`/assignments`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(asgnAddForm)
+        })
+        .then((r) => {
+            if(r.ok){
+                return r.json();
+            }
+            throw new Error("Something went wrong");
+        })
+        .then((newAsgn) => {
+            handleAddAsgn(newAsgn);
+            close();
+        })
+        .catch((error) => {
+            console.log(error);
+            close();
+        })
+    }
 
     return(
         <div className="project-detail-window">
@@ -118,13 +190,29 @@ function ProjectDetail(){
                                 </select>
                             </div>
                         </div>
+                        <Button onClick={open}>Add Assignment</Button>
                     </div>
                     <hr />
                     <Card.Group itemsPerRow={3} className='group'>
                         {filteredAssignments.map((assign) => {
-                            return <Assignment key={assign.id} props={assign} handlePrjPatch={handlePatch} handlePrjDelete={handleDelete}/>
+                            return <Assignment 
+                            key={assign.id} 
+                            props={assign} 
+                            handlePrjPatch={handlePatch} 
+                            handlePrjDelete={handleDelete} 
+                            />
                         })}
                     </Card.Group>
+                    {
+                        openAddForm ?
+                        <AssignmentAddForm 
+                        form={asgnAddForm}
+                        handleSubmit={handleAsgnAddSubmit}
+                        handleChange={handleAddChange}
+                        close={close}
+                        />
+                        : null
+                    }
                 </>
                 : 
                 <h1>Loading...</h1>

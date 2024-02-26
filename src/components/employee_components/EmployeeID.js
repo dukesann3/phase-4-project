@@ -1,14 +1,31 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import Assignment from "../assignment_components/Assignment";
-import {Card, Segment} from 'semantic-ui-react';
+import {Card, Button} from 'semantic-ui-react';
 import './employeeCSS/employeeAssignment.css';
+import AssignmentAddForm from "../form_components/AssignmentAddForm";
 
 function EmployeeID(){
 
-    let {emp_id} = useParams();
+    const {emp_id} = useParams();
     const [empDetail, setEmpDetail] = useState();
     const [filterBy, setFilterBy] = useState("All");
+
+    const [openAddForm, setOpenAddForm] = useState(false);
+    const open = () => setOpenAddForm(true);
+    const close = () => setOpenAddForm(false);  
+
+    function handleAddAsgn(newAssignment){
+        let copyEmp = JSON.parse(JSON.stringify(empDetail));
+
+        for(const property in copyEmp){
+            if(property === "assignments"){
+                copyEmp[property].push(newAssignment);
+            }
+        }
+    
+        setEmpDetail(copyEmp);
+    }
 
     useEffect(()=>{
         fetch(`/employees/${emp_id}`)
@@ -81,6 +98,63 @@ function EmployeeID(){
         return false;
     }) : null;
 
+    const [asgnAddForm, setAsgnAddForm] = useState({
+        employee_id: emp_id,
+        project_id: "",
+        name: "",
+        start_date: "",
+        expected_end_date: "",
+        comments: "",
+        isComplete: false
+    });
+
+    function handleAddChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setAsgnAddForm({
+            ...asgnAddForm,
+            [name]: value
+        });
+    }
+    
+    function addAsgnFormChecker(){
+        const {employee_id, project_id, name, start_date, expected_end_date} = asgnAddForm;
+        if(employee_id && project_id && name && start_date && expected_end_date){
+            return true;
+        }
+        return false;
+    }
+
+    function handleAsgnAddSubmit(){
+
+        if(!addAsgnFormChecker()){
+            return false;
+        }
+
+        fetch(`/assignments`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(asgnAddForm)
+        })
+        .then((r) => {
+            if(r.ok){
+                return r.json();
+            }
+            throw new Error("Something went wrong");
+        })
+        .then((newAsgn) => {
+            handleAddAsgn(newAsgn);
+            close();
+        })
+        .catch((error) => {
+            console.log(error);
+            close();
+        })
+    }
+
     return(
         <>
             {empDetail ?
@@ -106,6 +180,7 @@ function EmployeeID(){
                         </select>
                     </div>
                 </div>
+                <Button onClick={open}>Add Assignment</Button>
         
                 <hr />
                 <Card.Group className="group" itemsPerRow={3}>
@@ -113,6 +188,16 @@ function EmployeeID(){
                         return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>
                     })}
                 </Card.Group>
+                {
+                    openAddForm ?
+                    <AssignmentAddForm 
+                    form={asgnAddForm}
+                    handleSubmit={handleAsgnAddSubmit}
+                    handleChange={handleAddChange}
+                    close={close}
+                    />
+                    : null
+                }
             </div>
             :
             <>

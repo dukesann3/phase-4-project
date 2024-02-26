@@ -4,7 +4,7 @@ import AssignmentPatchForm from "../form_components/AssignmentPatchForm";
 import "./assignmentCSS/universalForm.css";
 import LateDateOrNot from "./LateDateOrNot";
 
-function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, handlePrjDelete}){
+function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, handlePrjDelete, handlePrjAsgnAdd}){
 
     const {isComplete, comments, expected_end_date, start_date, name, employee_id, project_id, id} = props;
     const [state, setState] = useState({open: false});
@@ -27,6 +27,16 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
         detail: ""
     });
     const [btnClick, setBtnClick] = useState(false);
+
+    function handleAsgnDetailChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setAsgnChangeDetail({
+            ...asgnChangeDetail,
+            [name]: value
+        })
+    }
 
     function handleChange(event){
         const name = event.target.name;
@@ -52,16 +62,6 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
             }
         }
         return true;
-    }
-
-    function handleAsgnDetailChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-
-        setAsgnChangeDetail({
-            ...asgnChangeDetail,
-            [name]: value
-        })
     }
 
     function handleSubmit(event){
@@ -195,6 +195,7 @@ function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, han
             console.log(error);
         })
     }
+
 
     return(
         <> 

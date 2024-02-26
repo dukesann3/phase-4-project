@@ -24,6 +24,11 @@ button:hover{
     position: fixed;
 }
 
+.align{
+    display: flex;
+    align-items: center;
+}
+
 
 
 
