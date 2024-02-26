@@ -38,4 +38,14 @@
     border: none;
 }
 
+.desc-window div .btn{
+    height: 3rem;
+    margin-left: 5%;
+}
+
+.btn-window{
+    text-align: center;
+}
+
+
 

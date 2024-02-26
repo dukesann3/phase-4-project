@@ -147,6 +147,15 @@ function EmployeeID(){
         })
         .then((newAsgn) => {
             handleAddAsgn(newAsgn);
+            setAsgnAddForm({
+                employee_id: emp_id,
+                project_id: "",
+                name: "",
+                start_date: "",
+                expected_end_date: "",
+                comments: "",
+                isComplete: false
+            });
             close();
         })
         .catch((error) => {
@@ -179,8 +188,12 @@ function EmployeeID(){
                             })}
                         </select>
                     </div>
+                    <div className='btn-window'>
+                        <h4>Add Assignment:</h4>
+                        <Button onClick={open} className='btn'>Add</Button>
+                    </div>
                 </div>
-                <Button onClick={open}>Add Assignment</Button>
+                
         
                 <hr />
                 <Card.Group className="group" itemsPerRow={3}>

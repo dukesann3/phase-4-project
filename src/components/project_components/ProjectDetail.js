@@ -150,6 +150,15 @@ function ProjectDetail(){
         })
         .then((newAsgn) => {
             handleAddAsgn(newAsgn);
+            setAsgnAddForm({
+                employee_id: "",
+                project_id: prj_id,
+                name: "",
+                start_date: "",
+                expected_end_date: "",
+                comments: "",
+                isComplete: false
+            });
             close();
         })
         .catch((error) => {
@@ -189,8 +198,11 @@ function ProjectDetail(){
                                     })}
                                 </select>
                             </div>
+                            <div className='btn-window'>
+                                <h4>Add Assignment:</h4>
+                                <Button onClick={open} className='btn'>Add</Button>
+                            </div>
                         </div>
-                        <Button onClick={open}>Add Assignment</Button>
                     </div>
                     <hr />
                     <Card.Group itemsPerRow={3} className='group'>
