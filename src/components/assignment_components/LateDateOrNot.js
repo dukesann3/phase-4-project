@@ -8,9 +8,8 @@ function LateDateOrNot({expected_end_date, isComplete}){
     const asgnEnd = new Date(expected_end_date);
     const AsgnEndTimeStamp = asgnEnd.getTime();
 
-    const diffMicroSeconds = Math.abs(AsgnEndTimeStamp - nowTimeStamp);
+    const diffMicroSeconds = AsgnEndTimeStamp - nowTimeStamp;
     const diffDays = Math.round(diffMicroSeconds / (1000*60*60*24));
-
     return(
         <>
             {
@@ -27,7 +26,7 @@ function LateDateOrNot({expected_end_date, isComplete}){
                     Warning. {diffDays} days to deadline.
                 </div> :
                 <div className='color-red date-indicator'>
-                    Deadline Passed. {diffDays} days passed deadline.
+                    Deadline Passed. {Math.abs(diffDays)} days passed deadline.
                 </div>
             }
         </>

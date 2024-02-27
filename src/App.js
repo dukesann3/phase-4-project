@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar";
 import { Outlet } from "react-router-dom";
+import "./components/component_CSS/outlet.css";
 
 function App() {
   return (
@@ -7,8 +8,9 @@ function App() {
       <header>
         <Navbar />
       </header>
-      <h1>Add Routes to App. Cannot right now because no internet</h1>
-      <Outlet />
+      <body className="outlet">
+        <Outlet className="default-position"/>
+      </body>
     </>
   );
 }

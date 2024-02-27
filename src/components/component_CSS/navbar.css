@@ -1,0 +1,41 @@
+.navbar-container{
+    display: grid;
+    position: fixed;
+    grid-template-columns: 55% 45%;
+    background-color: rgb(209, 209, 209);
+    height: 15%;
+    z-index: 40;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.logo-container{
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-right: 40%;
+}
+
+.logo-container h1{
+    font: 'Fira Sans';
+    color: #07c7e5;
+    font-weight: 1000;
+    font-size: 3rem;
+}
+
+.navbar-link-window{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    /* background-color: aquamarine; */
+}
+
+/* .navbar-link-window{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+} */
