@@ -7,12 +7,12 @@ function Navbar(){
             <div className='logo-container'>
                 <h1>COMPANY</h1>
             </div>
-            <div className="navbar-link-window">
-                <NavLink to="/">Home</NavLink>
-                <NavLink to='/employees'>Employees</NavLink>
-                <NavLink to='/projects'>Projects</NavLink>
+            <nav className="navbar-link-window">
+                <NavLink to="/" className="navbar-link">Home</NavLink>
+                <NavLink to='/employees' className="navbar-link">Employees</NavLink>
+                <NavLink to='/projects' className="navbar-link">Projects</NavLink>
                 <NavLink to='/test'>Test</NavLink>
-            </div>
+            </nav>
         </div>
     )
 }

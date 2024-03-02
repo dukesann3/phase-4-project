@@ -9,9 +9,9 @@ function App() {
       <header>
         <Navbar />
       </header>
-      <body className="outlet">
+      <div className="outlet">
         <Outlet className="default-position"/>
-      </body>
+      </div>
       <div className='footer'>
         <Footer />
       </div>

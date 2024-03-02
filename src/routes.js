@@ -11,7 +11,7 @@ import AllAssignmentLog from "./components/AllAssignmentLog";
 import AllProjectLog from "./components/AllProjectLog";
 import Test from "./components/Test";
 
-const router = createBrowserRouter([
+const routes = [
     {
         path: '/',
         element: <App/>,
@@ -55,6 +55,6 @@ const router = createBrowserRouter([
             }
         ]
     }
-])
+]
 
-export default router
+export default routes
