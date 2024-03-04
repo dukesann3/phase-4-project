@@ -1,6 +1,6 @@
 import {Form, Button} from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
-import '../assignment_components/assignmentCSS/universalForm.css';
+import '../component_CSS/form.css';
 
 function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgnChangeDetail, handleAsgnDetailChange, handleAsgnFormChange}){
 

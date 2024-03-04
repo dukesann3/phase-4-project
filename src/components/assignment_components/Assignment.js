@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {Card, Button, Confirm} from 'semantic-ui-react';
 import AssignmentPatchForm from "../form_components/AssignmentPatchForm";
-import "./assignmentCSS/universalForm.css";
+import "../component_CSS/form.css";
 import LateDateOrNot from "./LateDateOrNot";
 
 function Assignment({props, handleEmpPatch, handleEmpDelete, handlePrjPatch, handlePrjDelete, handlePrjAsgnAdd}){

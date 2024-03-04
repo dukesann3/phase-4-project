@@ -2,8 +2,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Employee from "./Employee";
 import {Card, Button} from 'semantic-ui-react';
-import '../employee_components/employeeCSS/employees.css';
+import "../component_CSS/search-filter.css";
 import EmployeeAddForm from "../form_components/EmployeeAddForm";
+import SearchFilter from "../SearchFilter";
 
 function Employees(){
 
@@ -95,17 +96,9 @@ function Employees(){
 
     return(
         <>
-            <div className="search-filter-window">
-                <div className="employees-word"><h1>EMPLOYEES</h1></div>
-                <input type="text" className="search-term" placeholder="What are you looking for?" onChange={handleSearch}/>
-                <Button primary className="add-emp-btn" onClick={handleBtnClick}>Add Employee</Button>
-            </div>
+            <SearchFilter handleBtnClick={handleBtnClick} handleSearch={handleSearch}/>
 
-            <div className="hr-line">
-                <hr></hr>
-            </div>
-
-            <Card.Group className="emp-group" itemsPerRow={3} centered={true}>
+            <Card.Group className="group" itemsPerRow={3} centered={true}>
                 {filteredItems.map((employee)=>{
                     return (<Card><Employee key={employee.id} props={employee} /></Card>)
                 })}

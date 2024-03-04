@@ -8,11 +8,11 @@
     margin-bottom: 2rem;
 }
 
-.employees-word{
+.word{
     height: 3rem;
 }
 
-.employees-word h1{
+.word h1{
     font-weight: 800;
     font: 'Fira Sans';
     color: #0788E5;
@@ -26,11 +26,11 @@
     padding: 1rem;
 }
 
-.emp-group{
+.group{
     padding: 0 5% 5% 5%;
 }
 
-.add-emp-btn{
+.add-btn{
     height: 3rem;
     width: 70%;
 }

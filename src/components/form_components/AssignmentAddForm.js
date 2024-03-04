@@ -1,6 +1,6 @@
 import { Form, Button, FormInput } from "semantic-ui-react";
 import { useEffect, useState } from "react";
-import '../assignment_components/assignmentCSS/universalForm.css';
+import '../component_CSS/form.css';
 
 
 function AssignmentAddForm({form, handleSubmit, handleChange, close}){

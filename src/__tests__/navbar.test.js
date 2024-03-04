@@ -1,10 +1,8 @@
-import App from "../App";
 import Navbar from "../components/Navbar";
-import {screen, render, waitFor} from "@testing-library/react";
+import {screen, render} from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { createMemoryRouter, RouterProvider, createMemoryHistory, MemoryRouter } from "react-router-dom";
+import { createMemoryRouter, RouterProvider, MemoryRouter } from "react-router-dom";
 import routes from "../routes";
-import {act} from 'react-dom/test-utils';
 import "@testing-library/dom";
 import "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -26,7 +24,7 @@ test("renders without any errors", () => {
     errorSpy.mockRestore();
 });
 
-test("Is NavBar component rendered when first rendered?", async () => {
+test("Does navbar have links?", async () => {
     render(
     <MemoryRouter>
         <Navbar/>
@@ -51,7 +49,6 @@ test("Is NavBar component rendered when first rendered?", async () => {
     expect(home).toBeInTheDocument();
     expect(employees).toBeInTheDocument();
     expect(projects).toBeInTheDocument();
-
 });
 
 

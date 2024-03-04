@@ -3,6 +3,7 @@ import Project from "./Project";
 import { Card, Button } from "semantic-ui-react";
 import './project_CSS/all_projects.css';
 import ProjectAddForm from "../form_components/ProjectAddForm";
+import SearchFilter from "../SearchFilter";
 
 function Projects(){
 
@@ -134,13 +135,7 @@ function Projects(){
 
     return(
         <>
-            <div className="search-filter-window">
-                <div className="projects-word"><h1>PROJECTS</h1></div>
-                <input type="text" className="search-term" placeholder="What are you looking for?" onChange={handleFilterChange}/>
-                <Button primary className="add-prj-btn" onClick={handleClick}>Add Project</Button>
-            </div>
-
-            <hr/>
+            <SearchFilter handleBtnClick={handleClick} handleSearch={handleFilterChange}/>
 
             <Card.Group className="prj-group" centered={true} itemsPerRow={3}>
                 {filteredProjects.map((prj) => {

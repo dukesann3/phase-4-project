@@ -1,5 +1,5 @@
 import {Form, Button} from 'semantic-ui-react';
-import '../assignment_components/assignmentCSS/universalForm.css';
+import '../component_CSS/form.css';
 
 function ProjectPatchForm({handlePatch, close, handleChangeLog, handleChangePrj, form, logForm}){
 

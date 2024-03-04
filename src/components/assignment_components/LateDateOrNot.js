@@ -1,5 +1,5 @@
 
-import './assignmentCSS/assignmentCSS.css';
+import '../component_CSS/assignmentCard.css';
 
 function LateDateOrNot({expected_end_date, isComplete}){
 
