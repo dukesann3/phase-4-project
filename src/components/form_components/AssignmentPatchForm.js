@@ -4,8 +4,8 @@ import '../component_CSS/form.css';
 
 function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgnChangeDetail, handleAsgnDetailChange, handleAsgnFormChange}){
 
-    const [allEmp, setAllEmp] = useState([]);
-    const [allPrj, setAllPrj] = useState([]);
+    const [emps, setEmps] = useState([]);
+    const [prjs, setPrjs] = useState([]);
 
     useEffect(() => {
         Promise.all([
@@ -19,48 +19,13 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
             throw new Error("Something went wrong.");
         })))
         .then(([emp, prj]) => {
-            setAllEmp(emp);
-            setAllPrj(prj);
+            setEmps(emp);
+            setPrjs(prj);
         })
         .catch((error) => {
             console.log(error);
         })
     },[]);
-
-    const empOptions = () => {
-        if(!allEmp){
-            return <option>None</option>
-        }
-
-        let empOptionsArray = [];
-        for(const emp of allEmp){
-            const empObj = {
-                key: emp.id,
-                text: emp.first_name + " " + emp.last_name,
-                value: emp.id
-            }
-            empOptionsArray.push(empObj);
-        }
-        return empOptionsArray;
-    }
-
-    const prjOptions = () => {
-        if(!allPrj){ 
-            return <option>None</option>
-        }
-
-        let prjOptionsArray = [];
-        for(const prj of allPrj){
-            const prjObj = {
-                key: prj.id,
-                text: prj.name,
-                value: prj.id
-            }
-            prjOptionsArray.push(prjObj);
-        }
-        return prjOptionsArray;
-    }
-
 
     return(
         <Form className="form" onSubmit={handleSubmit}>
@@ -72,11 +37,11 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
                     <select className="asgn-select" 
                     name="employee_id" 
                     onChange={handleAsgnFormChange}>
-                        {empOptions().map((emp) => {
-                            if(emp.key === asgnUpdateForm.employee_id){
-                                return <option selected value={emp.value} key={emp.text+emp.value}>{emp.text}</option>
+                        {emps.map((emp) => {
+                            if(emp.id === asgnUpdateForm.employee_id){
+                                return <option selected value={emp.id} key={emp.id+emp.first_name}>{emp.first_name + " " + emp.last_name}</option>
                             }
-                            return <option value={emp.value} key={emp.text+emp.value}>{emp.text}</option>
+                            return <option value={emp.id} key={emp.id+emp.first_name}>{emp.first_name + " " + emp.last_name}</option>
                         })}
                     </select>
                 </div>
@@ -86,11 +51,11 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
                     <select className="asgn-patch-form-select" 
                     name="project_id" 
                     onChange={handleAsgnFormChange}>
-                        {prjOptions().map((prj) => {
-                            if(prj.key === asgnUpdateForm.project_id){
-                                return <option selected value={prj.value} key={prj.text}>{prj.text}</option>
+                        {prjs.map((prj) => {
+                            if(prj.id === asgnUpdateForm.project_id){
+                                return <option selected value={prj.id} key={prj.id+prj.name}>{prj.name}</option>
                             }
-                            return <option value={prj.value} key={prj.value}>{prj.text}</option>
+                            return <option value={prj.id} key={prj.id+prj.name}>{prj.name}</option>
                         })}
                     </select>
                 </div>

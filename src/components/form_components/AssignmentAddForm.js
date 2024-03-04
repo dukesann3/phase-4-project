@@ -1,5 +1,6 @@
-import { Form, Button, FormInput } from "semantic-ui-react";
+import { Form, Button } from "semantic-ui-react";
 import { useEffect, useState } from "react";
+import { EmployeeSelectionForAdd, ProjectSelectionForAdd } from "./DataSelection";
 import '../component_CSS/form.css';
 
 
@@ -33,29 +34,11 @@ function AssignmentAddForm({form, handleSubmit, handleChange, close}){
             <h2>Add Assignment</h2>
             <Form.Group widths='equal' className="align">
                 {url.includes("project") ? 
-                <div className="select-container">
-                    <h5>Employee Selection</h5>
-                    <select className="asgn-select" 
-                    name="employee_id" 
-                    onChange={handleChange}>
-                        {emps.map((emp) => {
-                            return <option value={emp.id} key={emp.id+emp.first_name}>{emp.first_name + " " + emp.last_name}</option>
-                        })}
-                    </select>
-                </div>
+                <EmployeeSelectionForAdd emps={emps} handleChange={handleChange}/>
                 : 
                 null}
                 {url.includes("employee") ? 
-                <div className="select-container">
-                    <h5>Project Selection</h5>
-                    <select className="asgn-post-select" 
-                    name="project_id" 
-                    onChange={handleChange}>
-                        {prjs.map((prj) => {
-                            return <option value={prj.id} key={prj.id+prj.name}>{prj.name}</option>
-                        })}
-                    </select>
-                </div>
+                <ProjectSelectionForAdd prjs={prjs} handleChange={handleChange}/>
                 : 
                 null}
 
