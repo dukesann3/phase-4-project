@@ -4,6 +4,7 @@ import Assignment from "../assignment_components/Assignment";
 import {Card, Button} from 'semantic-ui-react';
 import "../component_CSS/details.css";
 import AssignmentAddForm from "../form_components/AssignmentAddForm";
+import Details from "../Details";
 
 function EmployeeID(){
 
@@ -168,34 +169,12 @@ function EmployeeID(){
         <>
             {empDetail ?
             <div className="detail-window">
-                <div className="desc-window">
-                    <div className="desc-container">
-                        <h2>{empDetail.first_name} {empDetail.last_name}'s Assignments</h2>
-                        <div className="meta">
-                            <span>Department: {empDetail.department}</span>
-                            <span>Role: {empDetail.role}</span>
-                        </div>
-                    </div>
-                    <div className="filter-emp-container">
-                        <h4>Filter Assignments By:</h4>
-                        <select className="filter-asgn"  
-                        onChange={handleAsgnFilter}>
-                            {filterOptions.map((filter, i) => {
-                                if(filter === "All"){
-                                    return <option selected value={filter} key={`${filter}+${i}`}>{filter}</option>
-                                }
-                                return <option value={filter} key={`${filter}+${i}`}>{filter}</option>
-                            })}
-                        </select>
-                    </div>
-                    <div className='btn-window'>
-                        <h4>Add Assignment:</h4>
-                        <Button onClick={open} className='btn'>Add</Button>
-                    </div>
-                </div>
-                
-        
+
+                <Details open={open} details={empDetail}
+                handleAsgnFilter={handleAsgnFilter} filterOptions={filterOptions}/>
+
                 <hr />
+
                 <Card.Group className="group" itemsPerRow={3}>
                     {filteredAssignments.map((assign) => {
                         return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>

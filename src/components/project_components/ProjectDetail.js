@@ -5,6 +5,7 @@ import { Card, Button } from "semantic-ui-react";
 import '../project_components/project_CSS/all_projects.css';
 import "../component_CSS/details.css";
 import AssignmentAddForm from "../form_components/AssignmentAddForm";
+import Details from "../Details";
 
 function ProjectDetail(){
 
@@ -170,41 +171,13 @@ function ProjectDetail(){
     return(
         <div className="project-detail-window">
             {prjDetail ? 
-                <> 
-                    <div className="detail-window">
-                        <div className="desc-window">
-                            <div className="desc-container">
-                                <h2>Project: {prjDetail.name}'s Assignments</h2>
-                                <h3>Sales Order: {prjDetail.sales_order}</h3>
-                                <div className="meta">
-                                    <span>Customer Name: {prjDetail.customer_name}</span>
-                                    <span>Sale Price: ${prjDetail.sale_price}</span>
-                                    <span>Start Date: {prjDetail.start_date}</span>
-                                    <span>Expected End Date: {prjDetail.expected_end_date}</span>
-                                </div>
-                                <div>
-                                    <span>Comments: {prjDetail.commment}</span>
-                                </div>
-                            </div>
-                            <div className="emp-container">
-                                <h4>Filter Assignments By:</h4>
-                                <select className="filter-asgn"  
-                                onChange={handleAsgnFilter}>
-                                    {filterOptions.map((filter, i) => {
-                                        if(filter === "All"){
-                                            return <option selected value={filter} key={`${filter}+${i}`}>{filter}</option>
-                                        }
-                                        return <option value={filter} key={`${filter}+${i}`}>{filter}</option>
-                                    })}
-                                </select>
-                            </div>
-                            <div className='btn-window'>
-                                <h4>Add Assignment:</h4>
-                                <Button onClick={open} className='btn'>Add</Button>
-                            </div>
-                        </div>
-                    </div>
+                <div className="detail-window">
+
+                    <Details open={open} details={prjDetail}
+                        handleAsgnFilter={handleAsgnFilter} filterOptions={filterOptions}/>
+
                     <hr />
+
                     <Card.Group itemsPerRow={3} className='group'>
                         {filteredAssignments.map((assign) => {
                             return <Assignment 
@@ -225,7 +198,7 @@ function ProjectDetail(){
                         />
                         : null
                     }
-                </>
+                </div>
                 : 
                 <h1>Loading...</h1>
             }

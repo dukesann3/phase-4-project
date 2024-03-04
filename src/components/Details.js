@@ -1,3 +1,5 @@
+import { Button } from "semantic-ui-react";
+import "../components/component_CSS/details.css";
 
 function ProjectMeta({details}){
 
@@ -58,14 +60,12 @@ function Details({open, details, handleAsgnFilter, filterOptions}){
     const URL = window.location.href;
 
     return(
-        <div className="detail-window">
-            <div className="desc-window">
-                {URL.includes("employee") ? <EmployeeMeta details={details}/> : <ProjectMeta details={details}/>}
-                <FilterContainer handleAsgnFilter={handleAsgnFilter} filterOptions={filterOptions}/>
-                <div className='btn-window'>
-                    <h4>Add Assignment:</h4>
-                    <Button onClick={open} className='btn'>Add</Button>
-                </div>
+        <div className="desc-window">
+            {URL.includes("employee") ? <EmployeeMeta details={details}/> : <ProjectMeta details={details}/>}
+            <FilterContainer handleAsgnFilter={handleAsgnFilter} filterOptions={filterOptions}/>
+            <div className='btn-window'>
+                <h4>Add Assignment:</h4>
+                <Button onClick={open} className='btn'>Add</Button>
             </div>
         </div>
     )
@@ -73,40 +73,3 @@ function Details({open, details, handleAsgnFilter, filterOptions}){
 
 export default Details;
 
-{/* <div className="detail-window">
-<div className="desc-window">
-    <ProjectMeta />
-    <FilterContainer />
-    <div className='btn-window'>
-        <h4>Add Assignment:</h4>
-        <Button onClick={open} className='btn'>Add</Button>
-    </div>
-</div>
-</div> */}
-
-{/* <div className="detail-window">
-<div className="desc-window">
-    <div className="desc-container">
-        <h2>{empDetail.first_name} {empDetail.last_name}'s Assignments</h2>
-        <div className="meta">
-            <span>Department: {empDetail.department}</span>
-            <span>Role: {empDetail.role}</span>
-        </div>
-    </div>
-    <div className="filter-emp-container">
-        <h4>Filter Assignments By:</h4>
-        <select className="filter-asgn"  
-        onChange={handleAsgnFilter}>
-            {filterOptions.map((filter, i) => {
-                if(filter === "All"){
-                    return <option selected value={filter} key={`${filter}+${i}`}>{filter}</option>
-                }
-                return <option value={filter} key={`${filter}+${i}`}>{filter}</option>
-            })}
-        </select>
-    </div>
-    <div className='btn-window'>
-        <h4>Add Assignment:</h4>
-        <Button onClick={open} className='btn'>Add</Button>
-    </div>
-</div> */}
