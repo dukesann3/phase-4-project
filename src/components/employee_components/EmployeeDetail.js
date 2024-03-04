@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import Assignment from "../assignment_components/Assignment";
 import {Card, Button} from 'semantic-ui-react';
-import './employeeCSS/employeeAssignment.css';
+import "../component_CSS/details.css";
 import AssignmentAddForm from "../form_components/AssignmentAddForm";
 
 function EmployeeID(){

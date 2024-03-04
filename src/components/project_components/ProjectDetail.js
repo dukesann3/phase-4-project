@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Assignment from "../assignment_components/Assignment";
 import { Card, Button } from "semantic-ui-react";
 import '../project_components/project_CSS/all_projects.css';
-import '../employee_components/employeeCSS/employeeAssignment.css';
+import "../component_CSS/details.css";
 import AssignmentAddForm from "../form_components/AssignmentAddForm";
 
 function ProjectDetail(){

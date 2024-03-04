@@ -1,11 +1,10 @@
-import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import ErrorPage from "./components/ErrorPage";
 import Employees from "./components/employee_components/Employees";
 import Home from "./components/Home";
 import Projects from "./components/project_components/Projects";
 import ProjectDetail from "./components/project_components/ProjectDetail";
-import EmployeeID from "./components/employee_components/EmployeeID";
+import EmployeeDetail from "./components/employee_components/EmployeeDetail";
 import AddAssignment from "./components/AddAssignment";
 import AllAssignmentLog from "./components/AllAssignmentLog";
 import AllProjectLog from "./components/AllProjectLog";
@@ -27,7 +26,7 @@ const routes = [
             },
             {
                 path: '/employees/:emp_id',
-                element: <EmployeeID />
+                element: <EmployeeDetail />
             },
             {
                 path: '/projects',
