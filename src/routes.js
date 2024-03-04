@@ -6,8 +6,6 @@ import Projects from "./components/project_components/Projects";
 import ProjectDetail from "./components/project_components/ProjectDetail";
 import EmployeeDetail from "./components/employee_components/EmployeeDetail";
 import AddAssignment from "./components/AddAssignment";
-import AllAssignmentLog from "./components/AllAssignmentLog";
-import AllProjectLog from "./components/AllProjectLog";
 import Test from "./components/Test";
 
 const routes = [
@@ -39,14 +37,6 @@ const routes = [
             {
                 path: "/add_assignments",
                 element: <AddAssignment />
-            },
-            {
-                path: '/assignment_logs',
-                element: <AllAssignmentLog />
-            },
-            {
-                path: '/project_logs',
-                element: <AllProjectLog />
             },
             {
                 path: '/test',

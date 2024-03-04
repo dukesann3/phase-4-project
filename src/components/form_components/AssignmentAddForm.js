@@ -25,7 +25,7 @@ function AssignmentAddForm({form, handleSubmit, handleChange, close}){
         })
     },[]);
 
-    const url = window.location.pathname;
+    const url = window.location.href;
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -59,37 +59,18 @@ function AssignmentAddForm({form, handleSubmit, handleChange, close}){
                 : 
                 null}
 
-                <Form.Input 
-                    fluid label="Assignment Name"
-                    placeholder='Assignment Name'
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                />
+                <Form.Input fluid label="Assignment Name" placeholder='Assignment Name'
+                        name="name" value={form.name} onChange={handleChange}/>
             </Form.Group>
             <Form.Group widths='equal'>
-                <Form.Input 
-                    fluid label="Start Date"
-                    name="start_date"
-                    value={form.start_date}
-                    onChange={handleChange}
-                    type='date'
-                />
+                <Form.Input fluid label="Start Date" name="start_date"
+                        value={form.start_date} onChange={handleChange} type='date'/>
 
-                <Form.Input 
-                    fluid label="Expected End Date"
-                    name="expected_end_date"
-                    value={form.expected_end_date}
-                    onChange={handleChange}
-                    type='date'
-                />
+                <Form.Input fluid label="Expected End Date" name="expected_end_date"
+                        value={form.expected_end_date} onChange={handleChange} type='date'/>
 
-                <Form.TextArea
-                    fluid label="Comment"
-                    name="comments"
-                    value={form.comments}
-                    onChange={handleChange}
-                />
+                <Form.TextArea fluid label="Comment" name="comments"
+                        value={form.comments} onChange={handleChange}/>
             </Form.Group>
             <Button>Submit</Button>
         </Form>

@@ -96,46 +96,21 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
                 </div>
             </Form.Group>
             <Form.Group widths='equal'>
-                <Form.Input 
-                fluid label="Assignment Name" 
-                placeholder="Assignment Name"
-                name="name"
-                value={asgnUpdateForm.name}
-                onChange={handleAsgnFormChange}
-                />
+                <Form.Input fluid label="Assignment Name" placeholder="Assignment Name" name="name"
+                        value={asgnUpdateForm.name} onChange={handleAsgnFormChange}/>
 
-                <Form.TextArea 
-                label="Comments" 
-                placeholder="Comments" 
-                name="comments"
-                value={asgnUpdateForm.comments}
-                onChange={handleAsgnFormChange}
-                />
+                <Form.TextArea label="Comments" placeholder="Comments" name="comments"
+                        value={asgnUpdateForm.comments} onChange={handleAsgnFormChange}/>
 
-                <Form.TextArea 
-                label="Change Detail" 
-                placeholder="Change Detail" 
-                name="detail"
-                value={asgnChangeDetail.detail}
-                onChange={handleAsgnDetailChange}
-                />
+                <Form.TextArea label="Change Detail" placeholder="Change Detail" name="detail"
+                        value={asgnChangeDetail.detail} onChange={handleAsgnDetailChange}/>
             </Form.Group>
             <Form.Group widths='equal'>
-                <input 
-                type="date" 
-                placeholder="Start Date" 
-                name="start_date" 
-                value={asgnUpdateForm.start_date}
-                onChange={handleAsgnFormChange}
-                />
+                <input type="date" placeholder="Start Date" name="start_date" 
+                        value={asgnUpdateForm.start_date} onChange={handleAsgnFormChange}/>
 
-                <input 
-                type="date" 
-                placeholder="Expected End Date" 
-                name="expected_end_date"
-                value={asgnUpdateForm.expected_end_date}
-                onChange={handleAsgnFormChange}
-                />
+                <input type="date" placeholder="Expected End Date" name="expected_end_date"
+                        value={asgnUpdateForm.expected_end_date} onChange={handleAsgnFormChange}/>
             </Form.Group>
             <Button>SUBMIT</Button>
         </Form>
