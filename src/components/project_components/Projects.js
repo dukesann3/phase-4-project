@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Project from "./Project";
-import { Card, Button } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import './project_CSS/all_projects.css';
 import ProjectAddForm from "../form_components/ProjectAddForm";
 import SearchFilter from "../SearchFilter";
@@ -8,15 +8,6 @@ import SearchFilter from "../SearchFilter";
 function Projects(){
 
     const [projects, setProjects] = useState([])
-    const [form, setForm] = useState({
-        sales_order: "",
-        name: "",
-        start_date: "",
-        expected_end_date: "",
-        customer_name: "",
-        sale_price: "",
-        comment: ""
-    });
     const [filter, setFilter] = useState("");
     const [btnClick, setBtnClick] = useState(false);
 
@@ -26,85 +17,24 @@ function Projects(){
         .then(response => setProjects(response))
     }, []);
 
+    const open = () => setBtnClick(true);
+    const close = () => setBtnClick(false);
 
-    function handleChange(event){
-        const name = event.target.name
-        const value = event.target.value
-
-        setForm({
-            ...form,
-            [name]: value
-        })
+    function addProject(prj){
+        setProjects([...projects, prj]);
     }
 
-    function formChecker(){
-        const {sales_order, name, start_date, expected_end_date} = form
-        if(sales_order && name && start_date && expected_end_date){
-            return true
-        }
-
-        return false
+    function patchProject(prj){
+        setProjects(projects.map((project) => {
+            if(project.id === prj.id){
+                return prj
+            }
+            return project;
+        }));
     }
 
-    function handleClick(){
-        setBtnClick(!btnClick);
-    }
-
-    //catach error please
-    function handleSubmit(event){
-        event.preventDefault()
-        if(!formChecker()){
-            //give it some error message please
-            console.log("ok, so it hasn't worked?");
-            console.log(form);
-            return
-        }
-
-        fetch("/projects", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(form)
-        })
-        .then((r) => {
-            if(r.ok){
-                return r.json();
-            }
-            throw new Error("Something went wrong")
-        })
-        .then((newPrj) => {
-            setProjects([...projects, newPrj]);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-
-    }
-
-    function handlePrjDelete(id){
-        fetch(`/projects/${id}`, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then((r) => {
-            if(r.ok){
-                return r.json() 
-            }
-            else{
-                console.log(r);
-                throw new Error("Something went wrong");
-            }
-        })
-        .then((response) => {
-            console.log(response);
-            setProjects(projects.filter(prj => prj.id !== id));
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+    function deleteProject(prj){
+        setProjects(projects.filter(project => project.id !== prj.id));
     }
 
     function handleFilterChange(event){
@@ -120,43 +50,21 @@ function Projects(){
         return false;
     });
 
-    function handleProjectPatch(prj){
-        setProjects(projects.map((project) => {
-            if(project.id === prj.id){
-                return prj
-            }
-            else{
-                return project;
-            }
-        }));
-    }
-
-
-
     return(
         <>
-            <SearchFilter handleBtnClick={handleClick} handleSearch={handleFilterChange}/>
+            <SearchFilter open={open} handleSearch={handleFilterChange}/>
 
             <Card.Group className="prj-group" centered={true} itemsPerRow={3}>
                 {filteredProjects.map((prj) => {
                     const {sales_order, id} = prj
-                    return <Project 
-                    key={id+sales_order} 
-                    project={prj} 
-                    handlePrjDelete={handlePrjDelete} 
-                    handleProjectPatch={handleProjectPatch}
-                    />
+                    return <Project key={id+sales_order} project={prj} 
+                                patchProject={patchProject} deleteProject={deleteProject}/>
                 })}
             </Card.Group>
 
             {
                 btnClick ? 
-                <ProjectAddForm 
-                handleClick={handleClick} 
-                handleSubmit={handleSubmit}
-                handleChange={handleChange}
-                form={form}
-                />
+                <ProjectAddForm close={close} addProject={addProject} />
                 :
                 null
             }
