@@ -11,12 +11,6 @@ function Employees(){
     const [employees, setEmployees] = useState([])
     const [searchQuery, setSearchQuery] = useState('');
     const [btnClick, setBtnClick] = useState(false);
-    const [form, setForm] = useState({
-        first_name: "",
-        last_name: "",
-        department: "",
-        role: ""
-    });
 
     useEffect(()=>{
         fetch('/employees')
@@ -24,56 +18,16 @@ function Employees(){
         .then(emp => setEmployees(emp))
     },[]);
 
-    function formCheck(){
-        for (const property in form) {
-            if(form[property] === ""){
-                return false
-            }
-        }
-        return true
-    }
-
-    function handleSubmit(event){
-        event.preventDefault()
-
-        if(!formCheck()){
-            console.log("Error something needs to be done")
-            return;
-        }
-
-        fetch("/employees", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(form)
-        })
-        .then((r)=> r.json())
-        .then((response) => {
-            const {first_name, last_name, department, role} = response
-            const newEmployee = {
-                first_name: first_name,
-                last_name: last_name,
-                department: department,
-                role: role
-            }
-            setEmployees([...employees, newEmployee])
-        })
-
-    };
-
-    function handleChange(event){
-        const name = event.target.name
-        const value = event.target.value
-        setForm({
-            ...form,
-            [name]: value
-        })
-    };
+    const open = () => setBtnClick(true);
+    const close = () => setBtnClick(false);
 
     function handleSearch(event){
         setSearchQuery(event.target.value)
     };
+
+    function addEmployee(newEmployee){
+        setEmployees([...employees, newEmployee]);
+    }
 
     const filteredItems = employees.filter((emp) => {
         const {first_name, last_name, department, role} = emp;
@@ -90,13 +44,9 @@ function Employees(){
         }
     });
 
-    function handleBtnClick(){
-        setBtnClick(!btnClick);
-    }
-
     return(
         <>
-            <SearchFilter handleBtnClick={handleBtnClick} handleSearch={handleSearch}/>
+            <SearchFilter open={open} handleSearch={handleSearch}/>
 
             <Card.Group className="group" itemsPerRow={3} centered={true}>
                 {filteredItems.map((employee)=>{
@@ -107,10 +57,7 @@ function Employees(){
             <br/>
             {
                 btnClick ?
-                    <EmployeeAddForm handleSubmit={handleSubmit} 
-                    handleChange={handleChange} 
-                    handleBtnClick={handleBtnClick} 
-                    form={form}/>
+                    <EmployeeAddForm addEmployee={addEmployee} close={close}/>
                 :
                 null
             }
