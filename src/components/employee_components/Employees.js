@@ -14,8 +14,12 @@ function Employees(){
 
     useEffect(()=>{
         fetch('/employees')
-        .then(r => r.json())
+        .then((r)=> {
+            if(r.ok) return r.json();
+            throw new Error("Somethint Went Wrong")
+        })
         .then(emp => setEmployees(emp))
+        .catch(error => console.log(error))
     },[]);
 
     const open = () => setBtnClick(true);

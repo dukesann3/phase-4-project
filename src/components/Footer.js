@@ -7,8 +7,8 @@ function Footer(){
             <div className="useful-links">
                 <span><strong>Useful Links</strong></span>
                 <NavLink to="/" className="footer-link">Home</NavLink>
-                <NavLink to='/projects' className="footer-link">Projects</NavLink>
-                <NavLink to='/employees' className="footer-link">Employees</NavLink>
+                <NavLink to='/project' className="footer-link">Projects</NavLink>
+                <NavLink to='/employee' className="footer-link">Employees</NavLink>
             </div>
 
             <div className="vertical-line">

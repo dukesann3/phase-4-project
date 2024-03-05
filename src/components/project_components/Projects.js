@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Project from "./Project";
 import { Card } from "semantic-ui-react";
-import './project_CSS/all_projects.css';
 import ProjectAddForm from "../form_components/ProjectAddForm";
 import SearchFilter from "../SearchFilter";
+import './project_CSS/all_projects.css';
 
 function Projects(){
 

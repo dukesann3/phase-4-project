@@ -5,7 +5,6 @@ import Home from "./components/Home";
 import Projects from "./components/project_components/Projects";
 import ProjectDetail from "./components/project_components/ProjectDetail";
 import EmployeeDetail from "./components/employee_components/EmployeeDetail";
-import AddAssignment from "./components/AddAssignment";
 import Test from "./components/Test";
 
 const routes = [
@@ -19,24 +18,20 @@ const routes = [
                 element: <Home />,
             },
             {
-                path: '/employees',
+                path: '/employee',
                 element: <Employees />
             },
             {
-                path: '/employees/:emp_id',
+                path: '/employee/:emp_id',
                 element: <EmployeeDetail />
             },
             {
-                path: '/projects',
+                path: '/project',
                 element: <Projects />,
             },
             {
-                path: "/projects/:prj_id",
+                path: "/project/:prj_id",
                 element: <ProjectDetail />
-            },
-            {
-                path: "/add_assignments",
-                element: <AddAssignment />
             },
             {
                 path: '/test',
