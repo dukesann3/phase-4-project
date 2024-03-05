@@ -41,7 +41,7 @@ function Project({project, patchProject, deleteProject}){
                     <Card.Meta>Expected End Date: {expected_end_date}</Card.Meta>
                 </Card.Content>
                 <Card.Content>
-                    <NavLink to={`/projects/${id}`} className="prj-nav-link">See Details</NavLink>
+                    <NavLink to={`/project/${id}`} className="prj-nav-link">See Details</NavLink>
                     <Button basic color='yellow' onClick={openPatchForm}>Edit</Button>
                     <Button basic color='red' onClick={open}>Delete</Button>
                     <Confirm

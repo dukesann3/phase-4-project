@@ -11,7 +11,7 @@ function Employee({props}){
                 <Card.Header>{first_name} {last_name}</Card.Header>
                 <Card.Description>Department: {department}</Card.Description>
                 <Card.Description>Role: {role}</Card.Description>
-            <NavLink to={`/employees/${id}`}>See Details</NavLink>
+            <NavLink to={`/employee/${id}`}>See Details</NavLink>
         </Card.Content>
     )
 }
