@@ -17,7 +17,7 @@ function ProjectDetail(){
     const open = () => setOpenAddForm(true);
     const close = () => setOpenAddForm(false);  
 
-    function handleAddAsgn(newAssignment){
+    function addAssignment(newAssignment){
         let copyPrj = JSON.parse(JSON.stringify(prjDetail));
 
         for(const property in copyPrj){
@@ -102,72 +102,6 @@ function ProjectDetail(){
         return false;
     }) : null;
 
-    const [asgnAddForm, setAsgnAddForm] = useState({
-        employee_id: "",
-        project_id: prj_id,
-        name: "",
-        start_date: "",
-        expected_end_date: "",
-        comments: "",
-        isComplete: false
-    });
-
-    function handleAddChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-
-        setAsgnAddForm({
-            ...asgnAddForm,
-            [name]: value
-        });
-    }
-    
-    function addAsgnFormChecker(){
-        const {employee_id, project_id, name, start_date, expected_end_date} = asgnAddForm;
-        if(employee_id && project_id && name && start_date && expected_end_date){
-            return true;
-        }
-        return false;
-    }
-
-    function handleAsgnAddSubmit(){
-
-        if(!addAsgnFormChecker()){
-            return false;
-        }
-
-        fetch(`/assignments`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(asgnAddForm)
-        })
-        .then((r) => {
-            if(r.ok){
-                return r.json();
-            }
-            throw new Error("Something went wrong");
-        })
-        .then((newAsgn) => {
-            handleAddAsgn(newAsgn);
-            setAsgnAddForm({
-                employee_id: "",
-                project_id: prj_id,
-                name: "",
-                start_date: "",
-                expected_end_date: "",
-                comments: "",
-                isComplete: false
-            });
-            close();
-        })
-        .catch((error) => {
-            console.log(error);
-            close();
-        })
-    }
-
     return(
         <div className="project-detail-window">
             {prjDetail ? 
@@ -191,9 +125,8 @@ function ProjectDetail(){
                     {
                         openAddForm ?
                         <AssignmentAddForm 
-                        form={asgnAddForm}
-                        handleSubmit={handleAsgnAddSubmit}
-                        handleChange={handleAddChange}
+                        id={prjDetail.id}
+                        addAssignment={addAssignment}
                         close={close}
                         />
                         : null

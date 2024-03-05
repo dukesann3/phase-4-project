@@ -16,7 +16,7 @@ function EmployeeID(){
     const open = () => setOpenAddForm(true);
     const close = () => setOpenAddForm(false);  
 
-    function handleAddAsgn(newAssignment){
+    function addAssignment(newAssignment){
         let copyEmp = JSON.parse(JSON.stringify(empDetail));
 
         for(const property in copyEmp){
@@ -127,43 +127,6 @@ function EmployeeID(){
         return false;
     }
 
-    function handleAsgnAddSubmit(){
-
-        if(!addAsgnFormChecker()){
-            return false;
-        }
-
-        fetch(`/assignments`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(asgnAddForm)
-        })
-        .then((r) => {
-            if(r.ok){
-                return r.json();
-            }
-            throw new Error("Something went wrong");
-        })
-        .then((newAsgn) => {
-            handleAddAsgn(newAsgn);
-            setAsgnAddForm({
-                employee_id: emp_id,
-                project_id: "",
-                name: "",
-                start_date: "",
-                expected_end_date: "",
-                comments: "",
-                isComplete: false
-            });
-            close();
-        })
-        .catch((error) => {
-            console.log(error);
-            close();
-        })
-    }
 
     return(
         <>
@@ -183,9 +146,8 @@ function EmployeeID(){
                 {
                     openAddForm ?
                     <AssignmentAddForm 
-                    form={asgnAddForm}
-                    handleSubmit={handleAsgnAddSubmit}
-                    handleChange={handleAddChange}
+                    addAssignment={addAssignment}
+                    id={empDetail.id}
                     close={close}
                     />
                     : null
