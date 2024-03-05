@@ -1,8 +1,12 @@
 import {Form, Button} from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { EmployeeSelectionForPatch, ProjectSelectionForPatch } from './DataSelection';
 import '../component_CSS/form.css';
 
-function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgnChangeDetail, handleAsgnDetailChange, handleAsgnFormChange}){
+function AssignmentPatchForm({close, patchAssignment, assignment}){
+
 
     const [emps, setEmps] = useState([]);
     const [prjs, setPrjs] = useState([]);
@@ -27,57 +31,91 @@ function AssignmentPatchForm({handleBtnClick, handleSubmit, asgnUpdateForm, asgn
         })
     },[]);
 
+    const {employee_id, project_id, name, comments, start_date, expected_end_date, id} = assignment;
+
+    const formSchema = yup.object().shape({
+        employee_id: yup.number().positive().integer()
+            .required("Must Enter Employee ID").typeError("Please Enter an Integer"),
+        project_id: yup.number().positive().integer()
+            .required("Must Enter Project ID").typeError("Please Enter an Integer"),
+        name: yup.string().required("Must Enter Name For Assignment"),
+        comments: yup.string().nullable(),
+        start_date: yup.date().required("Start Date is Required"),
+        expected_end_date: yup.date().required("Expected End Date is Required")
+            .min(yup.ref("start_date"), "Expected End Date Cannot Be Less Than Start Date"),
+        detail: yup.string().required("Must Enter Detail")
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            employee_id: employee_id,
+            project_id: project_id,
+            name: name,
+            comments: comments,
+            start_date: start_date,
+            expected_end_date: expected_end_date,
+            detail: ""
+        },
+        validationSchema: formSchema,
+        onSubmit: (values) => {
+            fetch(`/assignments/${id}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values)
+            })
+            .then((r) => {
+                if(r.ok){
+                    return r.json();
+                }
+                throw new Error("Something went wrong")
+            })
+            .then((newAssignment) => {
+                patchAssignment(newAssignment);
+                close();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    })
+
     return(
-        <Form className="form" onSubmit={handleSubmit}>
-            <button className="btn-position" onClick={handleBtnClick}>X</button>
+        <Form className="form" onSubmit={formik.handleSubmit}>
+            <button className="btn-position" onClick={close}>X</button>
             <h2>Edit Assignment</h2>
             <Form.Group widths='equal'>
-                <div className="select-container">
-                    <h3>Employee Selection</h3>
-                    <select className="asgn-select" 
-                    name="employee_id" 
-                    onChange={handleAsgnFormChange}>
-                        {emps.map((emp) => {
-                            if(emp.id === asgnUpdateForm.employee_id){
-                                return <option selected value={emp.id} key={emp.id+emp.first_name}>{emp.first_name + " " + emp.last_name}</option>
-                            }
-                            return <option value={emp.id} key={emp.id+emp.first_name}>{emp.first_name + " " + emp.last_name}</option>
-                        })}
-                    </select>
-                </div>
+                <EmployeeSelectionForPatch emps={emps} OGempID={employee_id}
+                    handleChange={formik.handleChange} value={formik.values.employee_id}/>
+                <p style={{color: 'red'}}>{formik.errors.employee_id}</p>
 
-                <div className="select-container">
-                    <h3>Project Selection</h3>
-                    <select className="asgn-patch-form-select" 
-                    name="project_id" 
-                    onChange={handleAsgnFormChange}>
-                        {prjs.map((prj) => {
-                            if(prj.id === asgnUpdateForm.project_id){
-                                return <option selected value={prj.id} key={prj.id+prj.name}>{prj.name}</option>
-                            }
-                            return <option value={prj.id} key={prj.id+prj.name}>{prj.name}</option>
-                        })}
-                    </select>
-                </div>
+                <ProjectSelectionForPatch prjs={prjs} OGprjID={project_id}
+                    handleChange={formik.handleChange} value={formik.values.project_id}/>
+                <p style={{color: 'red'}}>{formik.errors.project_id}</p>
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Input fluid label="Assignment Name" placeholder="Assignment Name" name="name"
-                        value={asgnUpdateForm.name} onChange={handleAsgnFormChange}/>
+                        value={formik.values.name} onChange={formik.handleChange}/>
+                <p style={{color: 'red'}}>{formik.errors.name}</p>
 
                 <Form.TextArea label="Comments" placeholder="Comments" name="comments"
-                        value={asgnUpdateForm.comments} onChange={handleAsgnFormChange}/>
+                        value={formik.values.comments} onChange={formik.handleChange}/>
 
                 <Form.TextArea label="Change Detail" placeholder="Change Detail" name="detail"
-                        value={asgnChangeDetail.detail} onChange={handleAsgnDetailChange}/>
+                        value={formik.values.detail} onChange={formik.handleChange}/>
+                <p style={{color: 'red'}}>{formik.errors.detail}</p>
             </Form.Group>
             <Form.Group widths='equal'>
                 <input type="date" placeholder="Start Date" name="start_date" 
-                        value={asgnUpdateForm.start_date} onChange={handleAsgnFormChange}/>
+                        value={formik.values.start_date} onChange={formik.handleChange}/>
+                <p style={{color: 'red'}}>{formik.errors.start_date}</p>
 
                 <input type="date" placeholder="Expected End Date" name="expected_end_date"
-                        value={asgnUpdateForm.expected_end_date} onChange={handleAsgnFormChange}/>
+                        value={formik.values.expected_end_date} onChange={formik.handleChange}/>
+                <p style={{color: 'red'}}>{formik.errors.expected_end_date}</p>
             </Form.Group>
-            <Button>SUBMIT</Button>
+            <Button type='submit'>SUBMIT</Button>
         </Form>
     )
 }

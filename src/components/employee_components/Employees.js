@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Employee from "./Employee";
-import {Card, Button} from 'semantic-ui-react';
+import {Card} from 'semantic-ui-react';
 import "../component_CSS/search-filter.css";
 import EmployeeAddForm from "../form_components/EmployeeAddForm";
 import SearchFilter from "../SearchFilter";
@@ -107,7 +107,10 @@ function Employees(){
             <br/>
             {
                 btnClick ?
-                    <EmployeeAddForm handleSubmit={handleSubmit} handleChange={handleChange} handleBtnClick={handleBtnClick} form={form}/>
+                    <EmployeeAddForm handleSubmit={handleSubmit} 
+                    handleChange={handleChange} 
+                    handleBtnClick={handleBtnClick} 
+                    form={form}/>
                 :
                 null
             }

@@ -17,6 +17,18 @@ function ProjectDetail(){
     const open = () => setOpenAddForm(true);
     const close = () => setOpenAddForm(false);  
 
+    useEffect(()=>{
+        fetch(`/projects/${prj_id}`)
+        .then(r => r.json())
+        .then((response) => {
+            setPrjDetail(response);
+        })
+    }, []);
+
+    function handleAsgnFilter(event){
+        setFilterBy(event.target.value);
+    }
+
     function addAssignment(newAssignment){
         let copyPrj = JSON.parse(JSON.stringify(prjDetail));
 
@@ -29,15 +41,7 @@ function ProjectDetail(){
         setPrjDetail(copyPrj);
     }
 
-    useEffect(()=>{
-        fetch(`/projects/${prj_id}`)
-        .then(r => r.json())
-        .then((response) => {
-            setPrjDetail(response);
-        })
-    }, []);
-
-    function handlePatch(patchedAssignment){
+    function patchAssignment(patchedAssignment){
         const id = patchedAssignment.id;
         const copyPrj = JSON.parse(JSON.stringify(prjDetail));
         
@@ -55,7 +59,7 @@ function ProjectDetail(){
         setPrjDetail(copyPrj);
     }
 
-    function handleDelete(assignment_id){
+    function deleteAssignment(assignment_id){
         const copyPrj = JSON.parse(JSON.stringify(prjDetail));
         
         for(const property in copyPrj){
@@ -70,10 +74,6 @@ function ProjectDetail(){
         }
 
         setPrjDetail(copyPrj);
-    }
-
-    function handleAsgnFilter(event){
-        setFilterBy(event.target.value);
     }
 
     const filterOptions = ["Completed Assignments", "Late Assignments", "All"];
@@ -108,27 +108,20 @@ function ProjectDetail(){
                 <div className="detail-window">
 
                     <Details open={open} details={prjDetail}
-                        handleAsgnFilter={handleAsgnFilter} filterOptions={filterOptions}/>
+                        handleAsgnFilter={handleAsgnFilter} filterOptions={filterOptions} />
 
                     <hr />
 
                     <Card.Group itemsPerRow={3} className='group'>
                         {filteredAssignments.map((assign) => {
-                            return <Assignment 
-                            key={assign.id} 
-                            props={assign} 
-                            handlePrjPatch={handlePatch} 
-                            handlePrjDelete={handleDelete} 
-                            />
+                            return <Assignment key={assign.id} assignment={assign} 
+                            patchAssignment={patchAssignment} deleteAssignment={deleteAssignment} />
                         })}
                     </Card.Group>
                     {
                         openAddForm ?
-                        <AssignmentAddForm 
-                        id={prjDetail.id}
-                        addAssignment={addAssignment}
-                        close={close}
-                        />
+                        <AssignmentAddForm id={prjDetail.id}
+                        addAssignment={addAssignment} close={close} />
                         : null
                     }
                 </div>

@@ -1,6 +1,6 @@
 import { Form, Button } from "semantic-ui-react";
 import { useEffect, useState } from "react";
-import { Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from "yup";
 import { EmployeeSelectionForAdd, ProjectSelectionForAdd } from "./DataSelection";
 import '../component_CSS/form.css';
@@ -86,6 +86,7 @@ function AssignmentAddForm({addAssignment, close, id}){
             <button className='btn-position' onClick={close}>X</button>
             <h2>Add Assignment</h2>
             <Form.Group widths='equal' className="align">
+
                 {url.includes("project") ? 
                 <>
                     <EmployeeSelectionForAdd emps={emps} handleChange={formik.handleChange} value={formik.values.employee_id}/>
@@ -104,8 +105,10 @@ function AssignmentAddForm({addAssignment, close, id}){
                 <Form.Input fluid label="Assignment Name" placeholder='Assignment Name'
                         name="name" value={formik.values.name} onChange={formik.handleChange}/>
                 <p style={{color: 'red'}}>{formik.errors.name}</p>
+
             </Form.Group>
             <Form.Group widths='equal'>
+
                 <Form.Input fluid label="Start Date" name="start_date"
                         value={formik.values.start_date} onChange={formik.handleChange} type='date'/>
                 <p style={{color: 'red'}}>{formik.errors.start_date}</p>
@@ -116,6 +119,7 @@ function AssignmentAddForm({addAssignment, close, id}){
 
                 <Form.TextArea fluid label="Comment" name="comments"
                         value={formik.values.comments} onChange={formik.handleChange}/>
+
             </Form.Group>
             <Button type="submit">Submit</Button>
         </Form>

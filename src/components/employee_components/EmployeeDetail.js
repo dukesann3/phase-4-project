@@ -16,6 +16,16 @@ function EmployeeID(){
     const open = () => setOpenAddForm(true);
     const close = () => setOpenAddForm(false);  
 
+    useEffect(()=>{
+        fetch(`/employees/${emp_id}`)
+        .then(r => r.json())
+        .then(data => setEmpDetail(data))
+    }, []);
+
+    function handleAsgnFilter(event){
+        setFilterBy(event.target.value);
+    }
+
     function addAssignment(newAssignment){
         let copyEmp = JSON.parse(JSON.stringify(empDetail));
 
@@ -28,13 +38,7 @@ function EmployeeID(){
         setEmpDetail(copyEmp);
     }
 
-    useEffect(()=>{
-        fetch(`/employees/${emp_id}`)
-        .then(r => r.json())
-        .then(data => setEmpDetail(data))
-    }, []);
-
-    function handlePatch(patchedAssignment){
+    function patchAssignment(patchedAssignment){
         const id = patchedAssignment.id;
         const copyEmp = JSON.parse(JSON.stringify(empDetail));
         
@@ -52,7 +56,7 @@ function EmployeeID(){
         setEmpDetail(copyEmp);
     }
 
-    function handleDelete(assignment_id){
+    function deleteAssignment(assignment_id){
         const copyEmp = JSON.parse(JSON.stringify(empDetail));
         
         for(const property in copyEmp){
@@ -67,10 +71,6 @@ function EmployeeID(){
         }
 
         setEmpDetail(copyEmp);
-    }
-
-    function handleAsgnFilter(event){
-        setFilterBy(event.target.value);
     }
 
     const filterOptions = ["Completed Assignments", "Late Assignments", "All"];
@@ -99,35 +99,6 @@ function EmployeeID(){
         return false;
     }) : null;
 
-    const [asgnAddForm, setAsgnAddForm] = useState({
-        employee_id: emp_id,
-        project_id: "",
-        name: "",
-        start_date: "",
-        expected_end_date: "",
-        comments: "",
-        isComplete: false
-    });
-
-    function handleAddChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-
-        setAsgnAddForm({
-            ...asgnAddForm,
-            [name]: value
-        });
-    }
-    
-    function addAsgnFormChecker(){
-        const {employee_id, project_id, name, start_date, expected_end_date} = asgnAddForm;
-        if(employee_id && project_id && name && start_date && expected_end_date){
-            return true;
-        }
-        return false;
-    }
-
-
     return(
         <>
             {empDetail ?
@@ -140,16 +111,14 @@ function EmployeeID(){
 
                 <Card.Group className="group" itemsPerRow={3}>
                     {filteredAssignments.map((assign) => {
-                        return <Assignment key={assign.id} props={assign} handleEmpPatch={handlePatch} handleEmpDelete={handleDelete}/>
+                        return <Assignment key={assign.id} assignment={assign} 
+                            patchAssignment={patchAssignment} deleteAssignment={deleteAssignment}/>
                     })}
                 </Card.Group>
                 {
                     openAddForm ?
-                    <AssignmentAddForm 
-                    addAssignment={addAssignment}
-                    id={empDetail.id}
-                    close={close}
-                    />
+                    <AssignmentAddForm addAssignment={addAssignment}
+                    id={empDetail.id} close={close} />
                     : null
                 }
             </div>
