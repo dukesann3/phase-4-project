@@ -11,7 +11,7 @@ function Navbar(){
                 <NavLink to="/" className="navbar-link">Home</NavLink>
                 <NavLink to='/employee' className="navbar-link">Employees</NavLink>
                 <NavLink to='/project' className="navbar-link">Projects</NavLink>
-                <NavLink to='/test'>Test</NavLink>
+                {/* <NavLink to='/test'>Test</NavLink> */}
             </nav>
         </div>
     )

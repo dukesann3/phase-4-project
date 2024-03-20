@@ -10,6 +10,8 @@ function AssignmentAddForm({addAssignment, close, id}){
 
     const [emps, setEmps] = useState([]);
     const [prjs, setPrjs] = useState([]);
+    const [initialEmp, setInitialEmp] = useState();
+    const [initialPrj, setInitialPrj] = useState();
 
     useEffect(() => {
         Promise.all([
@@ -25,12 +27,19 @@ function AssignmentAddForm({addAssignment, close, id}){
         .then(([empResp, prjResp]) => {
             setEmps(empResp);
             setPrjs(prjResp);
+            if(url.includes("employee")){
+                formik.values.project_id = prjResp[0].id;
+            }
+            else{
+                formik.values.employee_id = empResp[0].id;
+            }
         })
     },[]);
 
     const url = window.location.href;
+
     const employee_id = url.includes("employee") ? id : "";
-    const project_id = url.includes("project") ? id : ""
+    const project_id = url.includes("project") ? id : "";
 
     const formSchema = yup.object().shape({
         employee_id: url.includes("project") ? yup.number().positive().integer()
@@ -80,6 +89,7 @@ function AssignmentAddForm({addAssignment, close, id}){
             })
         }
     })
+
 
     return (
         <Form onSubmit={formik.handleSubmit}>
