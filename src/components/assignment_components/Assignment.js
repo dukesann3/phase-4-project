@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {Card, Button, Confirm} from 'semantic-ui-react';
 import AssignmentPatchForm from "../form_components/AssignmentPatchForm";
 import "../component_CSS/form.css";
@@ -33,7 +33,10 @@ function Assignment({assignment, patchAssignment, deleteAssignment}){
             }
                 throw new Error("Something Went Wrong");
         })
-        .then(response => deleteAssignment(response))
+        .then((response) => {
+            deleteAssignment(id);
+            close();
+        })
         .catch(error => console.log(error))
     }
 

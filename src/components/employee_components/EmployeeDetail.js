@@ -40,7 +40,7 @@ function EmployeeID(){
 
     function patchAssignment(patchedAssignment){
         const id = patchedAssignment.id;
-        const copyEmp = JSON.parse(JSON.stringify(empDetail));
+        let copyEmp = JSON.parse(JSON.stringify(empDetail));
         
         for(const property in copyEmp){
             if(property === "assignments"){
@@ -57,19 +57,19 @@ function EmployeeID(){
     }
 
     function deleteAssignment(assignment_id){
-        const copyEmp = JSON.parse(JSON.stringify(empDetail));
+        let copyEmp = JSON.parse(JSON.stringify(empDetail));
         
         for(const property in copyEmp){
             if(property === "assignments"){
                 for(let i = 0; i < copyEmp[property].length; i++){
-                    const element = copyEmp[property][i]
+                    const element = copyEmp[property][i];
                     if(element.id === assignment_id){ 
                         copyEmp[property].splice(i,1);
                     }
                 }
             }
         }
-
+        console.log(copyEmp);
         setEmpDetail(copyEmp);
     }
 
@@ -79,7 +79,7 @@ function EmployeeID(){
         if(filterBy === "All"){
             return true;
         }
-        else if(filterBy=== "Completed Assignments"){
+        else if(filterBy === "Completed Assignments"){
             if(asgn.isComplete){
                 return true;
             }
