@@ -10,6 +10,12 @@ function AssignmentPatchForm({close, patchAssignment, assignment}){
 
     const [emps, setEmps] = useState([]);
     const [prjs, setPrjs] = useState([]);
+    const [submitError, setSubmitError] = useState(false);
+
+    const closeOut = () => {
+        setSubmitError(false);
+        close();
+    }
 
     useEffect(() => {
         Promise.all([
@@ -69,6 +75,7 @@ function AssignmentPatchForm({close, patchAssignment, assignment}){
                 if(r.ok){
                     return r.json();
                 }
+                console.log(r);
                 throw new Error("Something went wrong")
             })
             .then((newAssignment) => {
@@ -76,6 +83,7 @@ function AssignmentPatchForm({close, patchAssignment, assignment}){
                 close();
             })
             .catch((error) => {
+                setSubmitError(true);
                 console.log(error);
             })
         }
@@ -83,7 +91,7 @@ function AssignmentPatchForm({close, patchAssignment, assignment}){
 
     return(
         <Form className="form" onSubmit={formik.handleSubmit}>
-            <button className="btn-position" onClick={close}>X</button>
+            <button className="btn-position" onClick={closeOut}>X</button>
             <h2>Edit Assignment</h2>
             <Form.Group widths='equal'>
                 <EmployeeSelectionForPatch emps={emps} OGempID={employee_id}
@@ -115,6 +123,14 @@ function AssignmentPatchForm({close, patchAssignment, assignment}){
                         value={formik.values.expected_end_date} onChange={formik.handleChange}/>
                 <p style={{color: 'red'}}>{formik.errors.expected_end_date}</p>
             </Form.Group>
+
+            {submitError ? 
+            <>
+                <p style={{color: 'red'}}>Cannot submit form since assignment start/end date is not within the project timeline</p>
+            </>
+            :
+            null}
+
             <Button type='submit'>SUBMIT</Button>
         </Form>
     )
