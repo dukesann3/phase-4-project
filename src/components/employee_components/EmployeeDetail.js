@@ -40,7 +40,7 @@ function EmployeeID(){
 
     function patchAssignment(patchedAssignment){
         const id = patchedAssignment.id;
-        let copyEmp = JSON.parse(JSON.stringify(empDetail));
+        let copyEmp = {...empDetail};
         
         for(const property in copyEmp){
             if(property === "assignments"){

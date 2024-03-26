@@ -2,10 +2,17 @@ import {Form, Button} from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import * as yup from "yup";
 import '../component_CSS/form.css';
+import { useState } from 'react';
 
 function ProjectPatchForm({patchProject, close, project}){
 
     const {name, comment, customer_name, sale_price, start_date, expected_end_date, sales_order, id} = project;
+    const [submitError, setSubmitError] = useState(false);
+
+    const closeOut = () => {
+        setSubmitError(false);
+        close();
+    }
 
     const formSchema = yup.object().shape({
         comment: yup.string().nullable(),
@@ -52,7 +59,10 @@ function ProjectPatchForm({patchProject, close, project}){
                 patchProject(patchedProject);
                 close();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                setSubmitError(true);
+                console.log(error)
+            })
         }
     })
 
@@ -60,7 +70,7 @@ function ProjectPatchForm({patchProject, close, project}){
 
     return(
         <Form onSubmit={formik.handleSubmit}>
-            <button onClick={close} className='btn-position'>X</button>
+            <button onClick={closeOut} className='btn-position'>X</button>
             <h2>Edit Project</h2>
             <Form.Group widths='equal'>
                 <Form.Input fluid label="Project Name" name="name"
@@ -97,6 +107,14 @@ function ProjectPatchForm({patchProject, close, project}){
                     value={formik.values.detail} onChange={formik.handleChange}/>
                 <p style={{color: 'red'}}>{formik.errors.detail}</p>
             </Form.Group>
+
+            {submitError ? 
+            <>
+                <p style={{color: 'red'}}>Cannot submit form since assignment start/end date is not within the project timeline</p>
+            </>
+            :
+            null}
+
             <Button type='submit'>Submit</Button>
         </Form>
     )
